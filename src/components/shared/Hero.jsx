@@ -1,3 +1,4 @@
+import Button from './Button'
 export default function Hero() {
   return (
     <section className="relative bg-gradient-to-b from-purple-50 to-white pt-32 pb-16">
