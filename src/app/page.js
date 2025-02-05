@@ -1,7 +1,8 @@
-export default function RootLayout({ children }) {
+export default function Home() {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  )
+    <div>
+      <h1>Welcome to Good Karma Beads</h1>
+      <p>Your spiritual journey begins here</p>
+    </div>
+  );
 }
