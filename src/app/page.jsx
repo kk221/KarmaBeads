@@ -1,6 +1,6 @@
-import Hero from '@/components/shared/Hero'
-import Features from '@/components/shared/Features'
-import ZodiacGrid from '@/components/zodiac/ZodiacGrid'
+import Hero from '../components/shared/Hero'
+import Features from '../components/shared/Features'
+import ZodiacGrid from '../components/zodiac/ZodiacGrid'
 
 export default function Home() {
   return (
