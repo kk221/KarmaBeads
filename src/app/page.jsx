@@ -1,20 +1,29 @@
 import Hero from '../components/shared/Hero'
 import Features from '../components/shared/Features'
-import ZodiacGrid from '../components/zodiac/ZodiacGrid'
+import DailyOracle from '../components/shared/DailyOracle'
+import ZodiacPreview from '../components/zodiac/ZodiacPreview'
 
 export default function Home() {
   return (
-    <>
-      <Hero />
-      <Features />
-      <section className="py-16 bg-purple-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-playfair font-bold text-center mb-12">
-            Explore Your Zodiac Sign
-          </h2>
-          <ZodiacGrid />
-        </div>
+    <main className="bg-midnight-900 min-h-screen">
+      {/* Hero Section with Animated Stars */}
+      <div className="relative">
+        <div className="absolute inset-0 bg-[url('/stars-bg.png')] opacity-50" />
+        <Hero />
+      </div>
+
+      {/* Free Daily Reading Section */}
+      <section className="bg-gradient-to-b from-midnight-900 to-purple-900 py-20">
+        <DailyOracle />
       </section>
-    </>
+
+      {/* Main Features */}
+      <Features />
+
+      {/* Current Zodiac Period */}
+      <section className="bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 py-16">
+        <ZodiacPreview />
+      </section>
+    </main>
   )
 }
