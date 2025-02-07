@@ -4,7 +4,9 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { FiMenu, FiX } from 'react-icons/fi'
 import { FaInstagram, FaFacebook, FaPinterest } from 'react-icons/fa'
-import '../styles/globals.css'
+import '@/assets/styles/globals.css' 
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 
 const inter = Inter({ 
   subsets: ['latin'], 
