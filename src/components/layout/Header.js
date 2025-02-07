@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { FiMenu } from 'react-icons/fi'
 
 export default function Header() {
   return (
@@ -24,10 +23,6 @@ export default function Header() {
               FengShui
             </Link>
           </div>
-
-          <button className="md:hidden">
-            <FiMenu className="h-6 w-6" />
-          </button>
         </nav>
       </div>
     </header>
