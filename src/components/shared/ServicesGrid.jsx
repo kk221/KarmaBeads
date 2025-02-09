@@ -5,8 +5,14 @@ import Link from 'next/link'
 
 const services = [
   {
-    title: 'Horoscope',
+    title: 'Zodiac',
     description: 'Daily, weekly, and monthly predictions for your sign',
+    image: '/images/daily-zodiac.svg',
+    href: '/zodiac'
+  },
+  {
+    title: 'Horoscope',
+    description: 'Yearly predictions for your sign',
     image: '/images/horoscope.svg',
     href: '/horoscope'
   },
