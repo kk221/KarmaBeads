@@ -1,8 +1,23 @@
-# React + Vite
+# KarmaBeads - Spiritual Guidance & Astrology
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+KarmaBeads is a modern web platform offering spiritual guidance through astrology, horoscopes, birth charts, feng shui, and tarot readings.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🌟 Daily Oracle Readings
+- ♈ Zodiac Sign Analysis
+- 🌙 Personalized Horoscopes
+- 📊 Birth Chart Calculations
+- 🏮 Feng Shui Guidance
+- 🎴 Tarot Reading Sessions
+
+## Tech Stack
+
+- **Framework:** Next.js 14
+- **Styling:** Tailwind CSS
+- **Deployment:** Vercel
+- **Icons/Images:** SVG Custom Designs
+
+## Getting Started
+
+First, clone the repository:
