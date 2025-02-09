@@ -7,40 +7,40 @@ const services = [
   {
     title: 'Zodiac',
     description: 'Discover your zodiac sign\'s unique traits and destiny',
-    image: '/images/daily-zodiac.svg',
+    image: '/images/services/zodiac.jpg',
     href: '/zodiac'
   },
   {
     title: 'Horoscope',
     description: 'Daily, weekly, and monthly predictions for your sign',
-    image: '/images/horoscope.svg',
+    image: '/images/services/horoscope.jpg',
     href: '/horoscope'
   },
   {
     title: 'Birth Chart',
     description: 'Deep dive into your complete astrological profile',
-    image: '/images/birth-chart.svg',
+    image: '/images/services/birth-chart.jpg',
     href: '/birth-chart'
   },
   {
     title: 'Feng Shui',
     description: 'Harmonize your space with ancient wisdom',
-    image: '/images/feng-shui.svg',
+    image: '/images/services/fengshui.jpg',
     href: '/fengshui'
   },
   {
     title: 'Tarot Reading',
     description: 'Guidance through the ancient art of tarot',
-    image: '/images/tarot-reading.svg',
+    image: '/images/services/tarot.jpg',
     href: '/tarot'
   }
 ]
 
 export default function ServicesGrid() {
   return (
-    <div className="bg-gradient-to-b from-indigo-50 to-white py-16">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-playfair text-center mb-12 text-indigo-900">
+    <section className="bg-gradient-to-b from-indigo-50 to-white py-20">
+      <div className="container mx-auto px-4 max-w-7xl">
+        <h2 className="text-4xl md:text-5xl font-playfair text-center mb-16 text-indigo-900">
           Explore Your Spiritual Journey
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -48,21 +48,22 @@ export default function ServicesGrid() {
             <Link 
               key={service.title}
               href={service.href}
-              className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <div className="aspect-[4/3] relative">
                 <Image
                   src={service.image}
                   alt={service.title}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-0 p-6">
-                  <h3 className="text-2xl font-playfair text-white mb-2">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <div className="absolute bottom-0 p-8">
+                  <h3 className="text-2xl md:text-3xl font-playfair text-white mb-3">
                     {service.title}
                   </h3>
-                  <p className="text-white/90 text-sm">
+                  <p className="text-white/90 text-lg">
                     {service.description}
                   </p>
                 </div>
@@ -71,6 +72,6 @@ export default function ServicesGrid() {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }
