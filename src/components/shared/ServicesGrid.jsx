@@ -38,9 +38,9 @@ const services = [
 
 export default function ServicesGrid() {
   return (
-    <section className="bg-gradient-to-b from-indigo-50 to-white py-20">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <h2 className="text-4xl md:text-5xl font-playfair text-center mb-16 text-indigo-900">
+    <section className="py-20 w-full bg-[#1d2a3a]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-4xl md:text-5xl font-playfair text-center mb-16 text-[#d3ae8b]">
           Explore Your Spiritual Journey
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -48,21 +48,21 @@ export default function ServicesGrid() {
             <Link 
               key={service.title}
               href={service.href}
-              className="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center"
+              className="group bg-[#2a3b4f] rounded-2xl p-8 border border-[#d3ae8b]/20 hover:border-[#d3ae8b]/40 transition-all duration-300 flex flex-col items-center text-center"
             >
-              <div className="w-32 h-32 mb-6 relative">
+              <div className="w-24 h-24 mb-6 relative">
                 <Image
                   src={service.image}
                   alt={service.title}
-                  width={128}
-                  height={128}
+                  width={96}
+                  height={96}
                   className="object-contain transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
-              <h3 className="text-2xl md:text-3xl font-playfair text-indigo-900 mb-3">
+              <h3 className="text-2xl font-playfair text-[#d3ae8b] mb-4">
                 {service.title}
               </h3>
-              <p className="text-gray-600 text-lg">
+              <p className="text-[#d3ae8b]/80 text-lg">
                 {service.description}
               </p>
             </Link>
