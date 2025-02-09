@@ -1,3 +1,5 @@
+import { Geist, Geist_Mono } from "next/font/google";
+import LayoutClient from './LayoutClient';
 import { Inter, Playfair_Display } from 'next/font/google'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
