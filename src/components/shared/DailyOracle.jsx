@@ -4,63 +4,71 @@ import { useState } from 'react'
 import Image from 'next/image'
 
 export default function DailyOracle() {
-  const [reading, setReading] = useState({
+  const [reading] = useState({
     fortune: "Today's energy brings unexpected opportunities for growth",
     goodThings: ["New connections will prove valuable", "Financial prospects are improving", "Creative energy is at its peak"],
     cautions: ["Avoid hasty decisions", "Take time for self-reflection"]
   })
 
   return (
-    <div className="relative">
+    <section className="relative min-h-[600px] flex items-center">
+      {/* Background with proper overlay */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/oracle-bg.jpg"
           alt="Oracle Background"
           fill
-          className="object-cover"
+          className="object-cover brightness-50"
           priority
+          sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/90 via-purple-900/90 to-indigo-900/90" />
       </div>
 
-      <div className="relative z-10 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-playfair mb-6">
+      {/* Content */}
+      <div className="relative z-10 w-full py-20">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-playfair text-white mb-6 tracking-wide">
               ✨ Your Daily Oracle Reading ✨
             </h2>
-            <p className="text-xl md:text-2xl mb-8 text-indigo-200 italic">
+            <p className="text-xl md:text-2xl text-white/90 italic font-light">
               {reading.fortune}
             </p>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6">
-                <h3 className="text-xl font-playfair mb-4 text-emerald-300">
-                  Positive Energies Today
-                </h3>
-                <ul className="space-y-2">
-                  {reading.goodThings.map((item, index) => (
-                    <li key={index} className="flex items-center gap-2">
-                      <span className="text-emerald-300">●</span> {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="bg-white/10 backdrop-blur-md rounded-lg p-6">
-                <h3 className="text-xl font-playfair mb-4 text-amber-300">
-                  Points of Awareness
-                </h3>
-                <ul className="space-y-2">
-                  {reading.cautions.map((item, index) => (
-                    <li key={index} className="flex items-center gap-2">
-                      <span className="text-amber-300">●</span> {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mt-12">
+            {/* Positive Energies Card */}
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all">
+              <h3 className="text-2xl font-playfair mb-6 text-emerald-300">
+                Positive Energies Today
+              </h3>
+              <ul className="space-y-4">
+                {reading.goodThings.map((item, index) => (
+                  <li key={index} className="flex items-center gap-3 text-white/90">
+                    <span className="text-emerald-300 text-lg">●</span>
+                    <span className="text-lg">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Awareness Card */}
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all">
+              <h3 className="text-2xl font-playfair mb-6 text-amber-300">
+                Points of Awareness
+              </h3>
+              <ul className="space-y-4">
+                {reading.cautions.map((item, index) => (
+                  <li key={index} className="flex items-center gap-3 text-white/90">
+                    <span className="text-amber-300 text-lg">●</span>
+                    <span className="text-lg">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
