@@ -1,3 +1,4 @@
+'use client'
 // app/Footer.jsx
 import Link from 'next/link'
 import { FaInstagram, FaFacebook, FaPinterest } from 'react-icons/fa'
