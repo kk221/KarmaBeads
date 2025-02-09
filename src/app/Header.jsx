@@ -1,4 +1,4 @@
-'use client'
+ 'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
@@ -19,35 +19,35 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-white fixed w-full top-0 z-50 shadow-md">
-        <div className="container mx-auto px-4 md:px-6">
-          <nav className="flex flex-wrap items-center justify-between py-4 md:py-5">
-            {/* Logo */}
+      <header className="bg-white fixed w-full top-0 z-50 border-b border-purple-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <nav className="flex items-center justify-between h-20">
+            {/* Logo Section */}
             <Link 
               href="/" 
-              className="flex items-center gap-3"
+              className="flex items-center space-x-3"
             >
               <Image
                 src="/images/logo.svg"
                 alt="KarmaBeads Logo"
-                width={40}
-                height={40}
-                className="w-auto h-10 md:h-12"
+                width={48}
+                height={48}
+                className="w-12 h-12"
               />
-              <span className="text-xl md:text-2xl font-bold text-indigo-900 font-playfair">
+              <span className="text-2xl font-bold text-purple-900 font-playfair">
                 KarmaBeads
               </span>
             </Link>
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8 lg:gap-12">
+            <div className="hidden md:flex items-center space-x-12">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-base lg:text-lg hover:text-indigo-600 transition-colors ${
+                  className={`text-lg font-medium transition-colors hover:text-purple-600 ${
                     pathname === link.href 
-                      ? 'text-indigo-600 font-medium' 
+                      ? 'text-purple-600 border-b-2 border-purple-600 pb-1' 
                       : 'text-gray-700'
                   }`}
                 >
@@ -59,11 +59,11 @@ export default function Header() {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-indigo-50 transition-colors"
+              className="md:hidden p-2 rounded-lg text-purple-900"
               aria-label="Toggle navigation menu"
             >
               <svg 
-                className="w-6 h-6 text-indigo-900" 
+                className="w-8 h-8" 
                 fill="none" 
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
@@ -83,30 +83,28 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-100">
-            <div className="container mx-auto px-4">
-              <div className="py-4 space-y-2">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`block py-3 px-4 rounded-lg transition-colors ${
-                      pathname === link.href 
-                        ? 'bg-indigo-50 text-indigo-600 font-medium' 
-                        : 'text-gray-700 hover:bg-gray-50'
-                    }`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
+          <div className="md:hidden bg-white border-t border-purple-100">
+            <div className="max-w-7xl mx-auto px-4 py-3">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`block py-3 px-4 text-lg rounded-lg transition-colors ${
+                    pathname === link.href 
+                      ? 'bg-purple-50 text-purple-600 font-medium' 
+                      : 'text-gray-700 hover:bg-purple-50 hover:text-purple-600'
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
           </div>
         )}
       </header>
-      {/* Spacer to prevent content from hiding under fixed header */}
-      <div className="h-20 md:h-24" />
+      {/* Spacer */}
+      <div className="h-20" />
     </>
   )
 }
