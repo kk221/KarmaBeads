@@ -1,5 +1,5 @@
-import DailyOracle from '../../components/shared/DailyOracle.jsx'
-import ServicesGrid from '../../components/shared/ServicesGrid.jsx'
+import DailyOracle from '/src/components/shared/DailyOracle'
+import ServicesGrid from '/src/components/shared/ServicesGrid'
 
 export default function Home() {
   return (
