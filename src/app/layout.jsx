@@ -1,5 +1,5 @@
 import { Playfair_Display } from 'next/font/google'
-import Header from '/src/components/shared/Header'
+import Header from '/src/components/shared/Navigator'
 import Footer from '/src/components/shared/Footer'
 import '../styles/globals.css'
 
