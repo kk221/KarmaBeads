@@ -7,31 +7,31 @@ const services = [
   {
     title: 'Zodiac',
     description: 'Discover your zodiac sign\'s unique traits and destiny',
-    image: '/images/services/zodiac.jpg',
+    image: '/images/daily-zodiac.svg',
     href: '/zodiac'
   },
   {
     title: 'Horoscope',
     description: 'Daily, weekly, and monthly predictions for your sign',
-    image: '/images/services/horoscope.jpg',
+    image: '/images/horoscope.svg',
     href: '/horoscope'
   },
   {
     title: 'Birth Chart',
     description: 'Deep dive into your complete astrological profile',
-    image: '/images/services/birth-chart.jpg',
+    image: '/images/birth-chart.svg',
     href: '/birth-chart'
   },
   {
     title: 'Feng Shui',
     description: 'Harmonize your space with ancient wisdom',
-    image: '/images/services/fengshui.jpg',
+    image: '/images/feng-shui.svg',
     href: '/fengshui'
   },
   {
     title: 'Tarot Reading',
     description: 'Guidance through the ancient art of tarot',
-    image: '/images/services/tarot.jpg',
+    image: '/images/tarot-reading.svg',
     href: '/tarot'
   }
 ]
