@@ -1,4 +1,6 @@
 import { Inter, Playfair_Display } from 'next/font/google'
+import Header from '.src/components/shared/Header'
+import Footer from '.src/components/shared/Footer'
 import '../styles/globals.css'
 
 const inter = Inter({ 
