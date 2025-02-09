@@ -2,18 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply font-inter text-gray-800;
-  }
-  
-  h1, h2, h3, h4 {
-    @apply font-playfair;
+:root {
+  --background: #1d2a3a;
+  --text: #d3ae8b;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+  min-height: 100vh;
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 1.5rem;
   }
 }
 
-@layer components {
-  .card {
-    @apply bg-white rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl;
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 2rem;
   }
 }
