@@ -19,9 +19,9 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-white fixed w-full top-0 z-50 border-b border-purple-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center justify-between h-20">
+      <header className="bg-[#1d2a3a] fixed w-full top-0 z-50 border-b border-[#d3ae8b]/20">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <nav className="flex items-center justify-between h-24">
             {/* Logo Section */}
             <Link 
               href="/" 
@@ -34,7 +34,7 @@ export default function Header() {
                 height={48}
                 className="w-12 h-12"
               />
-              <span className="text-2xl font-bold text-purple-900 font-playfair">
+              <span className="text-2xl font-bold text-[#d3ae8b] font-playfair">
                 KarmaBeads
               </span>
             </Link>
@@ -45,10 +45,10 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-lg font-medium transition-colors hover:text-purple-600 ${
+                  className={`text-lg font-medium transition-colors hover:text-[#d3ae8b] ${
                     pathname === link.href 
-                      ? 'text-purple-600 border-b-2 border-purple-600 pb-1' 
-                      : 'text-gray-700'
+                      ? 'text-[#d3ae8b] border-b-2 border-[#d3ae8b] pb-1' 
+                      : 'text-[#d3ae8b]/80'
                   }`}
                 >
                   {link.label}
@@ -59,7 +59,7 @@ export default function Header() {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-purple-900"
+              className="md:hidden p-2 rounded-lg text-[#d3ae8b]"
               aria-label="Toggle navigation menu"
             >
               <svg 
@@ -83,16 +83,16 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white border-t border-purple-100">
-            <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="md:hidden bg-[#1d2a3a] border-t border-[#d3ae8b]/20">
+            <div className="max-w-[1400px] mx-auto px-4 py-3">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={`block py-3 px-4 text-lg rounded-lg transition-colors ${
                     pathname === link.href 
-                      ? 'bg-purple-50 text-purple-600 font-medium' 
-                      : 'text-gray-700 hover:bg-purple-50 hover:text-purple-600'
+                      ? 'bg-[#d3ae8b]/10 text-[#d3ae8b] font-medium' 
+                      : 'text-[#d3ae8b]/80 hover:bg-[#d3ae8b]/10 hover:text-[#d3ae8b]'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -104,7 +104,7 @@ export default function Header() {
         )}
       </header>
       {/* Spacer */}
-      <div className="h-20" />
+      <div className="h-24" />
     </>
   )
 }
