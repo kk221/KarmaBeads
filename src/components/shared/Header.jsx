@@ -24,7 +24,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
-              src="/images/logo.svg"
+              src="/images/daily-zodiac.svg"
               alt="KarmaBeads Logo"
               width={40}
               height={40}
@@ -33,16 +33,16 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`
-                  px-4 py-2 rounded-lg text-lg transition-all
+                  px-6 py-2 text-lg transition-colors
                   ${pathname === link.href 
-                    ? 'bg-[#2a3b4f] text-[#d3ae8b] shadow-inner' 
-                    : 'text-[#d3ae8b]/80 hover:bg-[#2a3b4f] hover:text-[#d3ae8b]'
+                    ? 'text-[#d3ae8b]' 
+                    : 'text-[#d3ae8b]/80 hover:text-[#d3ae8b]'
                   }
                 `}
               >
@@ -54,7 +54,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className="lg:hidden p-2 hover:bg-[#2a3b4f] rounded-lg"
+            className="lg:hidden p-2"
             aria-label="Open menu"
           >
             <svg 
@@ -83,7 +83,7 @@ export default function Header() {
             <div className="flex justify-end mb-6">
               <button
                 onClick={() => setIsSidebarOpen(false)}
-                className="p-2 hover:bg-[#2a3b4f] rounded-lg"
+                className="p-2"
               >
                 <svg 
                   className="w-6 h-6 text-[#d3ae8b]" 
@@ -95,16 +95,16 @@ export default function Header() {
                 </svg>
               </button>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={`
-                    block px-4 py-2 rounded-lg text-lg transition-all
+                    block py-2 text-lg transition-colors
                     ${pathname === link.href 
-                      ? 'bg-[#2a3b4f] text-[#d3ae8b] shadow-inner' 
-                      : 'text-[#d3ae8b]/80 hover:bg-[#2a3b4f] hover:text-[#d3ae8b]'
+                      ? 'text-[#d3ae8b]' 
+                      : 'text-[#d3ae8b]/80 hover:text-[#d3ae8b]'
                     }
                   `}
                   onClick={() => setIsSidebarOpen(false)}
