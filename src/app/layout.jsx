@@ -1,17 +1,11 @@
-import { Inter, Playfair_Display } from 'next/font/google'
+import { Playfair_Display } from 'next/font/google'
 import Header from '/src/components/shared/Header'
 import Footer from '/src/components/shared/Footer'
 import '../styles/globals.css'
 
-const inter = Inter({ 
-  subsets: ['latin'], 
-  variable: '--font-inter',
-  display: 'swap'
-})
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'], 
-  variable: '--font-playfair',
   display: 'swap'
 })
 
@@ -22,9 +16,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="min-h-screen w-full">
-        {children}
+    <html lang="en" className={playfair.className}>
+      <body className="bg-[#1d2a3a] text-[#d3ae8b] min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-grow mt-24"> {/* Added mt-24 for header spacing */}
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   )
