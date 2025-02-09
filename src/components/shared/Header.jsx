@@ -1,14 +1,28 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 export default function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const pathname = usePathname()
   
+  // Close sidebar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const sidebar = document.getElementById('mobile-sidebar')
+      const menuButton = document.getElementById('menu-button')
+      if (sidebar && !sidebar.contains(event.target) && !menuButton.contains(event.target)) {
+        setIsSidebarOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   const navLinks = [
     { href: '/zodiac', label: 'Zodiac' },
     { href: '/horoscope', label: 'Horoscope' },
@@ -25,7 +39,7 @@ export default function Header() {
           <div className="logo">
             <Link href="/">
               <Image
-                src="/images/logo.svg"
+                src="/images/daily-zodiac.svg"
                 alt="KarmaBeads Logo"
                 width={100}
                 height={100}
@@ -53,7 +67,8 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            id="menu-button"
+            onClick={() => setIsSidebarOpen(true)}
             className="md:hidden p-2"
             aria-label="Toggle menu"
           >
@@ -73,25 +88,60 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        <div className={`md:hidden w-full mt-4 ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
-          <div className="flex flex-col space-y-4 pb-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-lg transition-colors ${
-                  pathname === link.href 
-                    ? 'text-[#d3ae8b]' 
-                    : 'text-[#d3ae8b]/80 hover:text-[#d3ae8b]'
-                }`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </div>
+        {/* Mobile Sidebar */}
+        {isSidebarOpen && (
+          <>
+            {/* Overlay */}
+            <div 
+              className="fixed inset-0 bg-black/50 md:hidden z-40"
+              onClick={() => setIsSidebarOpen(false)}
+            />
+            
+            {/* Sidebar */}
+            <div 
+              id="mobile-sidebar"
+              className={`fixed top-0 right-0 h-full w-64 bg-[#1d2a3a] shadow-lg transform transition-transform duration-300 ease-in-out z-50 md:hidden
+                ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}
+            >
+              <div className="p-5">
+                {/* Close button */}
+                <div className="flex justify-end mb-8">
+                  <button
+                    onClick={() => setIsSidebarOpen(false)}
+                    className="p-2 hover:bg-[#2a3b4f] rounded-lg"
+                  >
+                    <svg 
+                      className="w-6 h-6 text-[#d3ae8b]" 
+                      fill="none" 
+                      viewBox="0 0 24 24" 
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Sidebar Navigation */}
+                <div className="space-y-4">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={`block py-3 px-4 text-lg rounded-lg transition-colors
+                        ${pathname === link.href 
+                          ? 'bg-[#2a3b4f] text-[#d3ae8b]' 
+                          : 'text-[#d3ae8b]/80 hover:bg-[#2a3b4f] hover:text-[#d3ae8b]'
+                        }`}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </nav>
     </header>
   )
