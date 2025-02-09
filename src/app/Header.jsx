@@ -1,10 +1,8 @@
-// app/Header.jsx
 'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FiMenu, FiX } from 'react-icons/fi'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -14,7 +12,7 @@ export default function Header() {
     { href: '/zodiac', label: 'Zodiac' },
     { href: '/horoscope', label: 'Horoscope' },
     { href: '/birth-chart', label: 'Birth Chart' },
-    { href: '/numerology', label: 'Numerology' },
+    { href: '/fengshui', label: 'Feng Shui' },
     { href: '/tarot', label: 'Tarot' },
   ]
 
@@ -50,7 +48,7 @@ export default function Header() {
             className="md:hidden p-2 text-gray-700 hover:text-terracotta"
             aria-label="Toggle navigation menu"
           >
-            {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            Menu
           </button>
         </div>
 
