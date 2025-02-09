@@ -10,36 +10,48 @@
 
 /* Base styles */
 body {
-  @apply bg-[#1d2a3a] text-[#d3ae8b];
+  @apply bg-[#1d2a3a] text-[#d3ae8b] min-h-screen;
 }
 
-/* Mobile Sidebar Animation */
-#mobile-sidebar {
-  transition: transform 0.3s ease-in-out;
+/* Header styles */
+.header-nav {
+  @apply fixed w-full top-0 left-0 z-50 bg-[#1d2a3a] border-b border-[#d3ae8b]/20;
 }
 
-#mobile-sidebar.open {
-  transform: translateX(0);
+.nav-link {
+  @apply text-lg transition-colors;
 }
 
-#mobile-sidebar.closed {
-  transform: translateX(100%);
+.nav-link-active {
+  @apply text-[#d3ae8b];
 }
 
-/* Navigation Links */
-.nav-links a {
-  @apply transition-colors duration-200;
+.nav-link-inactive {
+  @apply text-[#d3ae8b]/80 hover:text-[#d3ae8b];
 }
 
-/* Mobile Menu Overlay */
-.mobile-overlay {
-  @apply fixed inset-0 bg-black/50 z-40 transition-opacity duration-300;
+/* Service Grid styles */
+.service-card {
+  @apply bg-[#2a3b4f] rounded-2xl p-8 border border-[#d3ae8b]/20 hover:border-[#d3ae8b]/40 transition-all duration-300 flex flex-col items-center text-center;
 }
 
-.mobile-overlay.open {
-  @apply opacity-100;
+.service-icon {
+  @apply w-24 h-24 mb-6 relative transition-transform duration-500 group-hover:scale-110;
 }
 
-.mobile-overlay.closed {
-  @apply opacity-0 pointer-events-none;
+.service-title {
+  @apply text-2xl font-playfair text-[#d3ae8b] mb-4;
+}
+
+.service-description {
+  @apply text-[#d3ae8b]/80 text-lg;
+}
+
+/* Mobile sidebar styles */
+.mobile-sidebar {
+  @apply fixed top-0 right-0 h-full w-64 bg-[#1d2a3a] p-6 lg:hidden;
+}
+
+.sidebar-overlay {
+  @apply fixed inset-0 bg-black/50 lg:hidden;
 }
