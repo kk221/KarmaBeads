@@ -11,13 +11,13 @@ const playfair = Playfair_Display({
 
 export const metadata = {
   title: 'KarmaBeads - Spiritual Guidance & Astrology',
-  description: 'Discover your spiritual path through astrology, tarot, and numerology',
+  description: 'Discover your spiritual path through astrology, tarot, and fengshui',
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={playfair.className}>
-      <body className="bg-[#1d2a3a] text-[#d3ae8b] min-h-screen flex flex-col">
+      <body className="min-h-screen bg-[#1d2a3a] text-[#d3ae8b]">
         <Header />
         <main className="flex-grow mt-24"> {/* Added mt-24 for header spacing */}
           {children}
