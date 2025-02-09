@@ -3,55 +3,43 @@
 @tailwind utilities;
 
 :root {
-  --primary: #d3ae8b;
-  --background: #1d2a3a;
+  --primary-bg: #1d2a3a;
+  --primary-text: #d3ae8b;
   --card-bg: #2a3b4f;
 }
 
 /* Base styles */
+html {
+  background-color: var(--primary-bg);
+}
+
 body {
-  @apply bg-[#1d2a3a] text-[#d3ae8b] min-h-screen;
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
+  min-height: 100vh;
 }
 
-/* Header styles */
+/* Ensure all pages use the correct background */
+#__next {
+  background-color: var(--primary-bg);
+}
+
+/* Default text color for all text elements */
+h1, h2, h3, h4, h5, h6, p, span, a {
+  color: var(--primary-text);
+}
+
+/* Component specific styles */
 .header-nav {
-  @apply fixed w-full top-0 left-0 z-50 bg-[#1d2a3a] border-b border-[#d3ae8b]/20;
+  background-color: var(--primary-bg);
+  border-bottom: 1px solid rgba(211, 174, 139, 0.2);
 }
 
-.nav-link {
-  @apply text-lg transition-colors;
-}
-
-.nav-link-active {
-  @apply text-[#d3ae8b];
-}
-
-.nav-link-inactive {
-  @apply text-[#d3ae8b]/80 hover:text-[#d3ae8b];
-}
-
-/* Service Grid styles */
 .service-card {
-  @apply bg-[#2a3b4f] rounded-2xl p-8 border border-[#d3ae8b]/20 hover:border-[#d3ae8b]/40 transition-all duration-300 flex flex-col items-center text-center;
+  background-color: var(--card-bg);
 }
 
-.service-icon {
-  @apply w-24 h-24 mb-6 relative transition-transform duration-500 group-hover:scale-110;
-}
-
-.service-title {
-  @apply text-2xl font-playfair text-[#d3ae8b] mb-4;
-}
-
-.service-description {
-  @apply text-[#d3ae8b]/80 text-lg;
-}
-
-/* Mobile sidebar styles */
+/* Mobile sidebar */
 .mobile-sidebar {
-  @apply fixed top-0 right-0 h-full w-64 bg-[#1d2a3a] p-6 lg:hidden;
-}
-
-.sidebar-overlay {
-  @apply fixed inset-0 bg-black/50 lg:hidden;
+  background-color: var(--primary-bg);
 }
