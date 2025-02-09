@@ -5,13 +5,13 @@
 :root {
   --background: #1d2a3a;
   --text: #d3ae8b;
+  --card-bg: #2a3b4f;
 }
 
 body {
   background-color: var(--background);
   color: var(--text);
   min-height: 100vh;
-  width: 100%;
 }
 
 .container {
@@ -21,6 +21,64 @@ body {
   padding: 0 1rem;
 }
 
+/* Service Cards */
+.service-card {
+  display: block;
+  background-color: var(--card-bg);
+  border: 1px solid rgba(211, 174, 139, 0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.service-card:hover {
+  border-color: rgba(211, 174, 139, 0.4);
+  transform: translateY(-4px);
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+.icon-wrapper {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.service-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.1);
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.875rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+  font-size: 1.125rem;
+  color: rgba(211, 174, 139, 0.9);
+  line-height: 1.6;
+}
+
+/* Responsive container padding */
 @media (min-width: 640px) {
   .container {
     padding: 0 1.5rem;
