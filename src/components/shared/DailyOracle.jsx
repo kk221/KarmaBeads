@@ -1,67 +1,74 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import { motion } from 'framer-motion'
 
 export default function DailyOracle() {
-  const [reading] = useState({
-    fortune: "Today's energy brings unexpected opportunities for growth",
-    goodThings: [
-      "New connections will prove valuable", 
-      "Financial prospects are improving", 
-      "Creative energy is at its peak"
-    ],
-    cautions: [
-      "Avoid hasty decisions", 
-      "Take time for self-reflection"
-    ]
-  })
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <section className="bg-[#1d2a3a] pt-24 pb-16 w-full">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <div className="text-center">
-          {/* Heading */}
-          <h2 className="text-3xl md:text-4xl font-playfair mb-6 text-[#d3ae8b]">
-            ✨ Your Daily Oracle Reading ✨
-          </h2>
-          
-          {/* Fortune Text */}
-          <p className="text-lg md:text-xl mb-12 text-[#d3ae8b]/90 italic max-w-2xl mx-auto">
-            {reading.fortune}
+    <section className="pt-16 pb-12 bg-[#1d2a3a]">
+      <div className="max-w-7xl mx-auto px-4">
+        <motion.div 
+          className={`flex ${isScrolled ? 'justify-start' : 'justify-center'} items-center transition-all duration-500`}
+          animate={{ 
+            scale: isScrolled ? 0.8 : 1,
+            y: isScrolled ? -20 : 0
+          }}
+        >
+          <Image
+            src="/images/daily-zodiac.svg"
+            alt="Daily Oracle"
+            width={isScrolled ? 60 : 120}
+            height={isScrolled ? 60 : 120}
+            className="transition-all duration-500"
+          />
+          <motion.h1 
+            className={`ml-4 text-[#d3ae8b] font-playfair ${isScrolled ? 'text-2xl' : 'text-4xl'}`}
+            animate={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+          >
+            Get Your Prediction
+          </motion.h1>
+        </motion.div>
+
+        <div className="mt-8 text-center">
+          <h2 className="text-2xl text-[#d3ae8b] mb-6">✨ Your Daily Oracle Reading ✨</h2>
+          <p className="text-[#d3ae8b]/90 mb-8">
+            Today's energy brings unexpected opportunities for growth
           </p>
-          
-          {/* Cards Grid */}
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Positive Energies Card */}
-            <div className="bg-[#2a3b4f] rounded-xl p-6 border border-[#d3ae8b]/20 hover:border-[#d3ae8b]/40 transition-all">
-              <h3 className="text-xl font-playfair mb-4 text-[#d3ae8b]">
-                Positive Energies Today
-              </h3>
-              <ul className="space-y-3">
-                {reading.goodThings.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <span className="text-[#d3ae8b] mt-1">●</span>
-                    <span className="text-[#d3ae8b]/90 flex-1">{item}</span>
-                  </li>
-                ))}
+
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-xl text-[#d3ae8b] mb-4">Positive Energies Today</h3>
+              <ul className="space-y-2 text-[#d3ae8b]/80">
+                <li>●New connections will prove valuable</li>
+                <li>●Financial prospects are improving</li>
+                <li>●Creative energy is at its peak</li>
               </ul>
             </div>
 
-            {/* Points of Awareness Card */}
-            <div className="bg-[#2a3b4f] rounded-xl p-6 border border-[#d3ae8b]/20 hover:border-[#d3ae8b]/40 transition-all">
-              <h3 className="text-xl font-playfair mb-4 text-[#d3ae8b]">
-                Points of Awareness
-              </h3>
-              <ul className="space-y-3">
-                {reading.cautions.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <span className="text-[#d3ae8b] mt-1">●</span>
-                    <span className="text-[#d3ae8b]/90 flex-1">{item}</span>
-                  </li>
-                ))}
+            <div>
+              <h3 className="text-xl text-[#d3ae8b] mb-4">Points of Awareness</h3>
+              <ul className="space-y-2 text-[#d3ae8b]/80">
+                <li>●Avoid hasty decisions</li>
+                <li>●Take time for self-reflection</li>
               </ul>
             </div>
           </div>
+
+          <h2 className="text-2xl text-[#d3ae8b] mt-12">
+            Explore Your Spiritual Journey
+          </h2>
         </div>
       </div>
     </section>
