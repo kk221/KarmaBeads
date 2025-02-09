@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 
 export default function DailyOracle() {
   const [reading] = useState({
@@ -11,57 +10,38 @@ export default function DailyOracle() {
   })
 
   return (
-    <section className="relative min-h-[600px] flex items-center">
-      {/* Background with proper overlay */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/oracle-bg.jpg"
-          alt="Oracle Background"
-          fill
-          className="object-cover brightness-50"
-          priority
-          sizes="100vw"
-        />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 w-full py-20">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-playfair text-white mb-6 tracking-wide">
-              ✨ Your Daily Oracle Reading ✨
-            </h2>
-            <p className="text-xl md:text-2xl text-white/90 italic font-light">
-              {reading.fortune}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 mt-12">
-            {/* Positive Energies Card */}
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all">
-              <h3 className="text-2xl font-playfair mb-6 text-emerald-300">
+    <section className="bg-[#1d2a3a] py-16 w-full">
+      <div className="container mx-auto px-4 max-w-5xl">
+        <div className="text-center">
+          <h2 className="text-4xl md:text-5xl font-playfair mb-6 text-[#d3ae8b]">
+            ✨ Your Daily Oracle Reading ✨
+          </h2>
+          <p className="text-xl md:text-2xl mb-12 text-[#d3ae8b]/90 italic">
+            {reading.fortune}
+          </p>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-[#2a3b4f] rounded-2xl p-8 border border-[#d3ae8b]/20">
+              <h3 className="text-2xl font-playfair mb-6 text-[#d3ae8b]">
                 Positive Energies Today
               </h3>
               <ul className="space-y-4">
                 {reading.goodThings.map((item, index) => (
-                  <li key={index} className="flex items-center gap-3 text-white/90">
-                    <span className="text-emerald-300 text-lg">●</span>
-                    <span className="text-lg">{item}</span>
+                  <li key={index} className="flex items-center gap-3">
+                    <span className="text-[#d3ae8b]">●</span>
+                    <span className="text-[#d3ae8b]/90">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
-
-            {/* Awareness Card */}
-            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:border-white/30 transition-all">
-              <h3 className="text-2xl font-playfair mb-6 text-amber-300">
+            <div className="bg-[#2a3b4f] rounded-2xl p-8 border border-[#d3ae8b]/20">
+              <h3 className="text-2xl font-playfair mb-6 text-[#d3ae8b]">
                 Points of Awareness
               </h3>
               <ul className="space-y-4">
                 {reading.cautions.map((item, index) => (
-                  <li key={index} className="flex items-center gap-3 text-white/90">
-                    <span className="text-amber-300 text-lg">●</span>
-                    <span className="text-lg">{item}</span>
+                  <li key={index} className="flex items-center gap-3">
+                    <span className="text-[#d3ae8b]">●</span>
+                    <span className="text-[#d3ae8b]/90">{item}</span>
                   </li>
                 ))}
               </ul>
