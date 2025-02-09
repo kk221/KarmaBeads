@@ -68,6 +68,7 @@ export default function Category() {
               </div>
             </Link>
           ))}
+          <h2>Categories</h2>
         </div>
       </div>
     </section>
