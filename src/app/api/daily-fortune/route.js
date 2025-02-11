@@ -2,17 +2,31 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    // Get today's sun sign based on date
+    console.log('API route called');
     const sunSign = getCurrentSunSign()
+    console.log('Current sun sign:', sunSign);
     
+    // Add headers and modify the fetch call
     const response = await fetch(
       `https://aztro.sameerkumar.website/?sign=${sunSign}&day=today`,
       {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add CORS headers
+          'Access-Control-Allow-Origin': '*',
+        },
+        // Add cache settings
+        cache: 'no-cache',
       }
     )
     
+    if (!response.ok) {
+      throw new Error(`Aztro API responded with status: ${response.status}`);
+    }
+
     const data = await response.json()
+    console.log('Aztro API response:', data);
 
     // Transform aztro data into our format
     const fortune = {
@@ -37,20 +51,23 @@ export async function GET() {
     return NextResponse.json(fortune)
   } catch (error) {
     console.error('Astrology API Error:', error)
+    // Return more detailed error for debugging
     return NextResponse.json(
-      { error: 'Failed to fetch fortune' }, 
+      { 
+        error: 'Failed to fetch fortune',
+        details: error.message,
+        timestamp: new Date().toISOString()
+      }, 
       { status: 500 }
     )
   }
 }
 
-// Helper function to get current sun sign
 function getCurrentSunSign() {
   const today = new Date()
   const month = today.getMonth() + 1
   const day = today.getDate()
 
-  // Zodiac date ranges
   const zodiacSigns = {
     'capricorn': [12, 22, 1, 19],
     'aquarius': [1, 20, 2, 18],
