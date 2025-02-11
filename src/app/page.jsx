@@ -1,11 +1,11 @@
 import DailyOracle from '/src/components/shared/DailyOracle'
-import ServicesGrid from '/src/components/shared/Category'
+import CategoryList from '/src/components/shared/CategoryList'
 
 export default function Home() {
   return (
-    <>
+    <main>
       <DailyOracle />
-      <Category />
-    </>
+      <CategoryList />
+    </main>
   )
 }
