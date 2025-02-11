@@ -2,167 +2,142 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { FiChevronDown } from 'react-icons/fi'
+import Footer from '/src/components/shared/Footer'
 
 export default function DailyOracle() {
-  const [isScrolled, setIsScrolled] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [selectedSign, setSelectedSign] = useState(null)
   const [dailyFortune, setDailyFortune] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const zodiacSigns = [
-    'aries', 'taurus', 'gemini', 'cancer', 
-    'leo', 'virgo', 'libra', 'scorpio', 
-    'sagittarius', 'capricorn', 'aquarius', 'pisces'
+    { name: 'Aries', dates: 'Mar 21 - Apr 19' },
+    { name: 'Taurus', dates: 'Apr 20 - May 20' },
+    { name: 'Gemini', dates: 'May 21 - Jun 20' },
+    { name: 'Cancer', dates: 'Jun 21 - Jul 22' },
+    { name: 'Leo', dates: 'Jul 23 - Aug 22' },
+    { name: 'Virgo', dates: 'Aug 23 - Sep 22' },
+    { name: 'Libra', dates: 'Sep 23 - Oct 22' },
+    { name: 'Scorpio', dates: 'Oct 23 - Nov 21' },
+    { name: 'Sagittarius', dates: 'Nov 22 - Dec 21' },
+    { name: 'Capricorn', dates: 'Dec 22 - Jan 19' },
+    { name: 'Aquarius', dates: 'Jan 20 - Feb 18' },
+    { name: 'Pisces', dates: 'Feb 19 - Mar 20' }
   ]
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-const fetchHoroscope = async (sign) => {
-  try {
-    setIsLoading(true)
-    console.log('Fetching horoscope for:', sign); // Debug log
-    
-    const response = await fetch(`/api/daily-fortune?sign=${sign}`)
-    const data = await response.json()
-    
-    console.log('API response:', data); // Debug log
-    
-    if (response.ok) {
+  // Simplified fetch function
+  const fetchHoroscope = async (sign) => {
+    try {
+      setIsLoading(true)
+      const response = await fetch(`/api/daily-fortune?sign=${sign}`)
+      const data = await response.json()
       setDailyFortune(data)
-    } else {
-      throw new Error(data.error || 'Failed to fetch fortune')
+    } catch (error) {
+      console.error('Error:', error)
+    } finally {
+      setIsLoading(false)
     }
-  } catch (error) {
-    console.error('Error fetching daily fortune:', error)
-  } finally {
-    setIsLoading(false)
-  }
-}
-
-  const handleSignSelect = (sign) => {
-    setSelectedSign(sign)
-    setIsDropdownOpen(false)
-    fetchHoroscope(sign)
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center py-8 px-4">
-      <div className="max-w-3xl w-full">
-        <div className="flex flex-col items-center">
-          {/* Logo Button */}
-          <div className="relative mb-12">
-            <button 
+     <div className="min-h-screen bg-[#1d2a3a] flex flex-col">
+      {/* Navigation */}
+      <nav className="fixed w-full top-0 bg-[#1d2a3a]/95 backdrop-blur-md border-b border-[#d3ae8b]/20 z-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex space-x-8">
+              <button className="text-[#d3ae8b] font-medium">Zodiac</button>
+              <button className="text-[#d3ae8b]/80 hover:text-[#d3ae8b]">Horoscope</button>
+              <button className="text-[#d3ae8b]/80 hover:text-[#d3ae8b]">Birth Chart</button>
+              <button className="text-[#d3ae8b]/80 hover:text-[#d3ae8b]">Tarot</button>
+              <button className="text-[#d3ae8b]/80 hover:text-[#d3ae8b]">Feng Shui</button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <main className="pt-24 pb-16 max-w-4xl mx-auto px-4">
+        <div className="text-center space-y-12">
+          {/* Zodiac Selection */}
+          <div className="relative inline-block w-full max-w-xs">
+            <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="transition-transform hover:scale-105 focus:outline-none"
-              aria-label="Select your sun sign"
+              className="w-full py-4 px-6 bg-[#2a3b4f] rounded-xl text-[#d3ae8b] flex justify-between items-center hover:bg-[#2a3b4f]/90 transition-colors"
             >
-              <Image
-                src="/images/logo.svg"
-                alt="Oracle Logo"
-                width={120}
-                height={120}
-                className="rounded-full"
-                priority
-              />
+              {selectedSign || 'Select Your Zodiac Sign'}
+              <FiChevronDown className={`transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            {/* Dropdown Menu */}
             {isDropdownOpen && (
-              <div className="absolute z-50 mt-4 w-56 rounded-xl shadow-lg bg-[#2a3b4f] ring-1 ring-black ring-opacity-5 transform -translate-x-1/2 left-1/2">
-                <div className="py-2 grid grid-cols-2 gap-1">
-                  {zodiacSigns.map((sign) => (
-                    <button
-                      key={sign}
-                      onClick={() => handleSignSelect(sign)}
-                      className="px-4 py-3 text-sm text-[#d3ae8b] hover:bg-[#1d2a3a] transition-colors capitalize w-full text-center"
-                    >
-                      {sign}
-                    </button>
-                  ))}
-                </div>
+              <div className="absolute mt-2 w-full bg-[#2a3b4f] rounded-xl shadow-lg z-50">
+                {zodiacSigns.map((sign) => (
+                  <button
+                    key={sign.name}
+                    onClick={() => {
+                      setSelectedSign(sign.name)
+                      setIsDropdownOpen(false)
+                      fetchHoroscope(sign.name.toLowerCase())
+                    }}
+                    className="w-full px-6 py-3 text-left text-[#d3ae8b] hover:bg-[#1d2a3a] transition-colors border-t border-[#d3ae8b]/10 first:border-t-0"
+                  >
+                    <span className="block font-medium">{sign.name}</span>
+                    <span className="block text-sm text-[#d3ae8b]/60">{sign.dates}</span>
+                  </button>
+                ))}
               </div>
             )}
           </div>
 
-          {/* Loading State */}
-          {isLoading && (
-            <div className="flex justify-center items-center min-h-[400px]">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#d3ae8b]"></div>
+          {/* Content Area */}
+          {isLoading ? (
+            <div className="py-16">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#d3ae8b] mx-auto"></div>
             </div>
-          )}
+          ) : dailyFortune ? (
+            <div className="space-y-8 animate-fade-in">
+              {/* Positive Energies */}
+              <div className="bg-[#2a3b4f] rounded-xl p-8 space-y-4">
+                <h3 className="text-2xl text-[#d3ae8b] font-medium">Today's Guidance</h3>
+                <p className="text-[#d3ae8b]/90 leading-relaxed">{dailyFortune.zodiacInfluence}</p>
+              </div>
 
-          {/* Fortune Display */}
-          {dailyFortune && !isLoading && (
-            <div className="w-full animate-fade-in-up">
-              <h1 className="text-4xl md:text-5xl font-playfair text-[#d3ae8b] mb-8 text-center">
-                ✨ Your Daily Oracle Reading ✨
-              </h1>
-              
-              <p className="text-[#d3ae8b]/80 mb-8 text-center text-lg">
-                {dailyFortune.zodiacInfluence}
-              </p>
-              
-              <div className="space-y-10">
-                <div className="bg-[#2a3b4f] rounded-xl p-6 shadow-lg">
-                  <h3 className="text-xl text-[#d3ae8b] mb-4">Positive Energies Today</h3>
-                  <ul className="space-y-3 text-[#d3ae8b]/80">
-                    {dailyFortune.positiveEnergies.map((energy, index) => (
-                      <li key={index} className="flex items-center space-x-2">
-                        <span className="text-[#d3ae8b]">●</span>
-                        <span>{energy}</span>
+              {/* Highlights Grid */}
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="bg-[#2a3b4f] rounded-xl p-8 space-y-4">
+                  <h3 className="text-xl text-[#d3ae8b] font-medium">Positive Energies</h3>
+                  <ul className="space-y-3">
+                    {dailyFortune.positiveEnergies.map((item, i) => (
+                      <li key={i} className="flex items-start space-x-3 text-[#d3ae8b]/90">
+                        <span className="text-[#d3ae8b] mt-1">•</span>
+                        <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="bg-[#2a3b4f] rounded-xl p-6 shadow-lg">
-                  <h3 className="text-xl text-[#d3ae8b] mb-4">Points of Awareness</h3>
-                  <ul className="space-y-3 text-[#d3ae8b]/80">
-                    {dailyFortune.awareness.map((point, index) => (
-                      <li key={index} className="flex items-center space-x-2">
-                        <span className="text-[#d3ae8b]">●</span>
-                        <span>{point}</span>
+                <div className="bg-[#2a3b4f] rounded-xl p-8 space-y-4">
+                  <h3 className="text-xl text-[#d3ae8b] font-medium">Points of Awareness</h3>
+                  <ul className="space-y-3">
+                    {dailyFortune.awareness.map((item, i) => (
+                      <li key={i} className="flex items-start space-x-3 text-[#d3ae8b]/90">
+                        <span className="text-[#d3ae8b] mt-1">•</span>
+                        <span>{item}</span>
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                <div className="bg-[#2a3b4f] rounded-xl p-6 shadow-lg">
-                  <h3 className="text-xl text-[#d3ae8b] mb-4">Lucky Elements</h3>
-                  <div className="grid grid-cols-3 gap-6 text-[#d3ae8b]/80">
-                    <div className="text-center">
-                      <p className="font-medium mb-2">Number</p>
-                      <p>{dailyFortune.lucky.number}</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="font-medium mb-2">Time</p>
-                      <p>{dailyFortune.lucky.time}</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="font-medium mb-2">Color</p>
-                      <p>{dailyFortune.lucky.color}</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
-          )}
-
-          {/* Initial State */}
-          {!selectedSign && !isLoading && !dailyFortune && (
-            <div className="text-center text-[#d3ae8b]/80 text-lg animate-pulse">
-              <p>Click the oracle to discover your daily reading</p>
-            </div>
+          ) : (
+            <p className="text-[#d3ae8b]/60 py-12">Select your zodiac sign to reveal today's guidance</p>
           )}
         </div>
-      </div>
-    </section>
+      </main>
+
+      {/* Footer */}
+      <Footer /> {/* Use the Footer component here */}
+    </div>
   )
-}
+}    
