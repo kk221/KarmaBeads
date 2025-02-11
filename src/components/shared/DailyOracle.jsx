@@ -41,24 +41,8 @@ export default function DailyOracle() {
   }
 
   return (
-     <div className="min-h-screen bg-[#1d2a3a] flex flex-col">
-      {/* Navigation */}
-      <nav className="fixed w-full top-0 bg-[#1d2a3a]/95 backdrop-blur-md border-b border-[#d3ae8b]/20 z-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex space-x-8">
-              <button className="text-[#d3ae8b] font-medium">Zodiac</button>
-              <button className="text-[#d3ae8b]/80 hover:text-[#d3ae8b]">Horoscope</button>
-              <button className="text-[#d3ae8b]/80 hover:text-[#d3ae8b]">Birth Chart</button>
-              <button className="text-[#d3ae8b]/80 hover:text-[#d3ae8b]">Tarot</button>
-              <button className="text-[#d3ae8b]/80 hover:text-[#d3ae8b]">Feng Shui</button>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <main className="pt-24 pb-16 max-w-4xl mx-auto px-4">
+ <div className="flex-1"> {/* Use flex-1 to fill remaining space */}
+      <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="text-center space-y-12">
           {/* Zodiac Selection */}
           <div className="relative inline-block w-full max-w-xs">
@@ -134,7 +118,7 @@ export default function DailyOracle() {
             <p className="text-[#d3ae8b]/60 py-12">Select your zodiac sign to reveal today's guidance</p>
           )}
         </div>
-      </main>
+      </div>
 
     </div>
   )
