@@ -24,23 +24,27 @@ export default function DailyOracle() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const fetchHoroscope = async (sign) => {
-    try {
-      setIsLoading(true)
-      const response = await fetch('/api/daily-fortune?sign=${sign}`')
-      const data = await response.json()
-      
-      if (response.ok) {
-        setDailyFortune(data)
-      } else {
-        throw new Error(data.error || 'Failed to fetch fortune')
-      }
-    } catch (error) {
-      console.error('Error fetching daily fortune:', error)
-    } finally {
-      setIsLoading(false)
+const fetchHoroscope = async (sign) => {
+  try {
+    setIsLoading(true)
+    console.log('Fetching horoscope for:', sign); // Debug log
+    
+    const response = await fetch(`/api/daily-fortune?sign=${sign}`)
+    const data = await response.json()
+    
+    console.log('API response:', data); // Debug log
+    
+    if (response.ok) {
+      setDailyFortune(data)
+    } else {
+      throw new Error(data.error || 'Failed to fetch fortune')
     }
+  } catch (error) {
+    console.error('Error fetching daily fortune:', error)
+  } finally {
+    setIsLoading(false)
   }
+}
 
   const handleSignSelect = (sign) => {
     setSelectedSign(sign)
