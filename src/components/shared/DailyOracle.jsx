@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { FiChevronDown } from 'react-icons/fi'
-import Footer from '/src/components/shared/Footer'
+
 
 export default function DailyOracle() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -136,8 +136,6 @@ export default function DailyOracle() {
         </div>
       </main>
 
-      {/* Footer */}
-      <Footer /> {/* Use the Footer component here */}
     </div>
   )
 }    
