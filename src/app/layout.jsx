@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={playfair.className}>
       <body className="min-h-screen bg-[#1d2a3a] text-[#d3ae8b]">
         <Header />
-        <main className="flex-grow mt-24"> {/* Added mt-24 for header spacing */}
+        <main className="flex-grow mt-24"> {/* Spacing for fixed header */}
           {children}
         </main>
         <Footer />
