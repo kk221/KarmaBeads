@@ -6,52 +6,47 @@ export async function GET() {
     const sunSign = getCurrentSunSign()
     console.log('Current sun sign:', sunSign);
     
-    // Add headers and modify the fetch call
+    // Using a different API
     const response = await fetch(
-      `https://aztro.sameerkumar.website/?sign=${sunSign}&day=today`,
+      `https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sunSign}&day=today`,
       {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          // Add CORS headers
-          'Access-Control-Allow-Origin': '*',
         },
-        // Add cache settings
-        cache: 'no-cache',
       }
     )
     
     if (!response.ok) {
-      throw new Error(`Aztro API responded with status: ${response.status}`);
+      throw new Error(`API responded with status: ${response.status}`);
     }
 
     const data = await response.json()
-    console.log('Aztro API response:', data);
+    console.log('Horoscope API response:', data);
 
-    // Transform aztro data into our format
+    // Transform the data into our format
     const fortune = {
       positiveEnergies: [
-        data.lucky_time && `Best time for activities: ${data.lucky_time}`,
-        data.color && `Harness the energy of ${data.color} today`,
-        data.compatibility && `Strong connections with ${data.compatibility}`
-      ].filter(Boolean),
+        `Lucky Number: ${Math.floor(Math.random() * 100)}`,
+        `Best Color: ${getRandomColor()}`,
+        `Element: ${getZodiacElement(sunSign)}`
+      ],
       awareness: [
-        data.description,
-        data.mood && `Your energy today: ${data.mood}`
-      ].filter(Boolean),
-      zodiacInfluence: `${sunSign} - ${data.current_date}`,
-      date: data.current_date,
+        data.data.horoscope_data,
+        `Mood: ${getMoodBasedOnHoroscope(data.data.horoscope_data)}`
+      ],
+      zodiacInfluence: `${sunSign.charAt(0).toUpperCase() + sunSign.slice(1)} - ${new Date().toLocaleDateString()}`,
+      date: new Date().toLocaleDateString(),
       lucky: {
-        number: data.lucky_number,
-        time: data.lucky_time,
-        color: data.color
+        number: Math.floor(Math.random() * 100).toString(),
+        time: getRandomTime(),
+        color: getRandomColor()
       }
     }
 
     return NextResponse.json(fortune)
   } catch (error) {
-    console.error('Astrology API Error:', error)
-    // Return more detailed error for debugging
+    console.error('Horoscope API Error:', error)
     return NextResponse.json(
       { 
         error: 'Failed to fetch fortune',
@@ -61,6 +56,42 @@ export async function GET() {
       { status: 500 }
     )
   }
+}
+
+// Helper functions
+function getRandomColor() {
+  const colors = ['Red', 'Blue', 'Green', 'Purple', 'Yellow', 'Orange', 'Pink', 'White', 'Gold', 'Silver']
+  return colors[Math.floor(Math.random() * colors.length)]
+}
+
+function getRandomTime() {
+  const hour = Math.floor(Math.random() * 12) + 1
+  const minute = Math.floor(Math.random() * 60)
+  return `${hour}:${minute.toString().padStart(2, '0')} ${hour < 6 ? 'PM' : 'AM'}`
+}
+
+function getZodiacElement(sign) {
+  const elements = {
+    aries: 'Fire',
+    leo: 'Fire',
+    sagittarius: 'Fire',
+    taurus: 'Earth',
+    virgo: 'Earth',
+    capricorn: 'Earth',
+    gemini: 'Air',
+    libra: 'Air',
+    aquarius: 'Air',
+    cancer: 'Water',
+    scorpio: 'Water',
+    pisces: 'Water'
+  }
+  return elements[sign] || 'Unknown'
+}
+
+function getMoodBasedOnHoroscope(horoscope) {
+  const positiveWords = ['good', 'great', 'excellent', 'positive', 'happy']
+  const text = horoscope.toLowerCase()
+  return positiveWords.some(word => text.includes(word)) ? 'Positive' : 'Contemplative'
 }
 
 function getCurrentSunSign() {
@@ -92,5 +123,5 @@ function getCurrentSunSign() {
     }
   }
 
-  return 'capricorn' // default fallback
+  return 'capricorn'
 }
