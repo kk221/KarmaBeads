@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server'
 
 export async function GET(request) {
-
-  const { searchParams } = new URL(request.url)
-  const sign = searchParams.get('sign') || getCurrentSunSign()
-  
   try {
-    const sunSign = getCurrentSunSign()
+    // Get the sign from the URL query parameters
+    const { searchParams } = new URL(request.url)
+    const selectedSign = searchParams.get('sign')
+    const sunSign = selectedSign?.toLowerCase() || getCurrentSunSign()
+    
     console.log('Fetching horoscope for:', sunSign)
 
-    // Using the Horoscope App API
+    // Using the Horoscope App API with the selected sign
     const response = await fetch(
       `https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sunSign}&day=today`
     )
@@ -51,6 +51,8 @@ export async function GET(request) {
     )
   }
 }
+
+// ... rest of the helper functions remain the same ...
 
 // Helper functions
 function getZodiacElement(sign) {
