@@ -59,7 +59,7 @@ export default function DailyOracle() {
               className="transition-transform hover:scale-105 focus:outline-none"
             >
               <Image
-                src="/logo.png"  // Make sure to add your logo image
+                src="/images/logo.svg"  // Make sure to add your logo image
                 alt="Oracle Logo"
                 width={100}
                 height={100}
