@@ -64,7 +64,7 @@ const fetchHoroscope = async (sign) => {
               aria-label="Select your sun sign"
             >
               <Image
-                src="/images/logo.png"
+                src="/images/logo.svg"
                 alt="Oracle Logo"
                 width={120}
                 height={120}
