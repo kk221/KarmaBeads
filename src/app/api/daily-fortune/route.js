@@ -2,56 +2,46 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    console.log('API route called');
     const sunSign = getCurrentSunSign()
-    console.log('Current sun sign:', sunSign);
-    
-    // Using a different API
+    console.log('Fetching horoscope for:', sunSign)
+
+    // Using the Horoscope App API
     const response = await fetch(
-      `https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sunSign}&day=today`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
+      `https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sunSign}&day=today`
     )
-    
+
     if (!response.ok) {
-      throw new Error(`API responded with status: ${response.status}`);
+      throw new Error(`API responded with status: ${response.status}`)
     }
 
     const data = await response.json()
-    console.log('Horoscope API response:', data);
+    console.log('API Response:', data)
 
     // Transform the data into our format
     const fortune = {
       positiveEnergies: [
-        `Lucky Number: ${Math.floor(Math.random() * 100)}`,
-        `Best Color: ${getRandomColor()}`,
-        `Element: ${getZodiacElement(sunSign)}`
+        `Zodiac Sign: ${sunSign.toUpperCase()}`,
+        `Element: ${getZodiacElement(sunSign)}`,
+        `Quality: ${getZodiacQuality(sunSign)}`
       ],
       awareness: [
-        data.data.horoscope_data,
-        `Mood: ${getMoodBasedOnHoroscope(data.data.horoscope_data)}`
+        data.data.horoscope_data
       ],
-      zodiacInfluence: `${sunSign.charAt(0).toUpperCase() + sunSign.slice(1)} - ${new Date().toLocaleDateString()}`,
-      date: new Date().toLocaleDateString(),
+      zodiacInfluence: `${sunSign.toUpperCase()} - ${new Date().toLocaleDateString()}`,
       lucky: {
-        number: Math.floor(Math.random() * 100).toString(),
-        time: getRandomTime(),
-        color: getRandomColor()
+        number: getLuckyNumber(),
+        time: getLuckyTime(),
+        color: getLuckyColor(sunSign)
       }
     }
 
     return NextResponse.json(fortune)
   } catch (error) {
-    console.error('Horoscope API Error:', error)
+    console.error('API Error:', error)
     return NextResponse.json(
       { 
         error: 'Failed to fetch fortune',
-        details: error.message,
-        timestamp: new Date().toISOString()
+        details: error.message 
       }, 
       { status: 500 }
     )
@@ -59,17 +49,6 @@ export async function GET() {
 }
 
 // Helper functions
-function getRandomColor() {
-  const colors = ['Red', 'Blue', 'Green', 'Purple', 'Yellow', 'Orange', 'Pink', 'White', 'Gold', 'Silver']
-  return colors[Math.floor(Math.random() * colors.length)]
-}
-
-function getRandomTime() {
-  const hour = Math.floor(Math.random() * 12) + 1
-  const minute = Math.floor(Math.random() * 60)
-  return `${hour}:${minute.toString().padStart(2, '0')} ${hour < 6 ? 'PM' : 'AM'}`
-}
-
 function getZodiacElement(sign) {
   const elements = {
     aries: 'Fire',
@@ -88,10 +67,50 @@ function getZodiacElement(sign) {
   return elements[sign] || 'Unknown'
 }
 
-function getMoodBasedOnHoroscope(horoscope) {
-  const positiveWords = ['good', 'great', 'excellent', 'positive', 'happy']
-  const text = horoscope.toLowerCase()
-  return positiveWords.some(word => text.includes(word)) ? 'Positive' : 'Contemplative'
+function getZodiacQuality(sign) {
+  const qualities = {
+    aries: 'Cardinal',
+    cancer: 'Cardinal',
+    libra: 'Cardinal',
+    capricorn: 'Cardinal',
+    taurus: 'Fixed',
+    leo: 'Fixed',
+    scorpio: 'Fixed',
+    aquarius: 'Fixed',
+    gemini: 'Mutable',
+    virgo: 'Mutable',
+    sagittarius: 'Mutable',
+    pisces: 'Mutable'
+  }
+  return qualities[sign] || 'Unknown'
+}
+
+function getLuckyNumber() {
+  return Math.floor(Math.random() * 100).toString()
+}
+
+function getLuckyTime() {
+  const hour = Math.floor(Math.random() * 12) + 1
+  const minute = Math.floor(Math.random() * 60)
+  return `${hour}:${minute.toString().padStart(2, '0')} ${hour < 6 ? 'PM' : 'AM'}`
+}
+
+function getLuckyColor(sign) {
+  const colors = {
+    aries: 'Red',
+    taurus: 'Green',
+    gemini: 'Yellow',
+    cancer: 'Silver',
+    leo: 'Gold',
+    virgo: 'Navy Blue',
+    libra: 'Pink',
+    scorpio: 'Dark Red',
+    sagittarius: 'Purple',
+    capricorn: 'Brown',
+    aquarius: 'Electric Blue',
+    pisces: 'Sea Green'
+  }
+  return colors[sign] || 'White'
 }
 
 function getCurrentSunSign() {
