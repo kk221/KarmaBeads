@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server'
 
-export async function GET() {
+export async function GET(request) {
+
+  const { searchParams } = new URL(request.url)
+  const sign = searchParams.get('sign') || getCurrentSunSign()
+  
   try {
     const sunSign = getCurrentSunSign()
     console.log('Fetching horoscope for:', sunSign)
