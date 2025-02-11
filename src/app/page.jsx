@@ -1,11 +1,9 @@
 import DailyOracle from '/src/components/shared/DailyOracle'
-import CategoryList from '/src/components/shared/CategoryList'
 
-export default function Home() {
+export default function Page() {
   return (
-    <main>
+    <main className="min-h-screen bg-[#1d2a3a]">
       <DailyOracle />
-      <CategoryList />
     </main>
   )
 }
