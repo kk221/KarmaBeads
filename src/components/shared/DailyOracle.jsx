@@ -12,6 +12,14 @@ export default function DailyOracle() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
+    // Add missing handleSubmit function
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (selectedSign) {
+      await fetchHoroscope(selectedSign)
+    }
+  }
+
     // Add shareReading function
   const shareReading = async () => {
     if (!dailyFortune) return
@@ -107,32 +115,34 @@ Get your reading at [Your Website URL]
       <StarsBackground />
            {/* Main Content Container */}
       <main className="relative z-30 w-full max-w-4xl mx-auto p-4 flex flex-col items-center justify-center">
-        {/* Logo and Form Container */}
+       
+         {/* Logo and Form Container */}
         <div className="absolute top-8 w-full flex justify-center">
-          {/* Logo */}
-        <div className="relative w-[120px] h-[120px] mb-8 z-40">
-          <Image
-            src="https://raw.githubusercontent.com/kk221/KarmaBeads/main/public/images/logo.svg"
-            alt="Oracle Logo"
-            width={180}
-            height={180}
-            priority
-            className="drop-shadow-2xl"
-             style={{
+          <div className="relative w-[120px] h-[120px] mb-8 z-40">
+            <Image
+              src="https://raw.githubusercontent.com/kk221/KarmaBeads/main/public/images/logo.svg"
+              alt="Oracle Logo"
+              width={180}
+              height={180}
+              priority
+              className="drop-shadow-2xl"
+              style={{
                 objectFit: 'contain',
-                opacity: 1 // Ensure full opacity
+                opacity: 1
               }}
-          />
+            />
+          </div>
         </div>
+
         {/* Error Message */}
         {error && (
           <div className="w-full max-w-md text-center text-red-400 bg-red-900/20 px-4 py-2 rounded-lg">
-              {error}
+            {error}
           </div>
         )}
 
         {/* Sun Sign Selection Form */}
-        <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col items-center gap-6">
+        <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col items-center gap-6 mt-32">
           <div className="w-full zodiac-select-container">
             <select
               value={selectedSign}
@@ -168,10 +178,22 @@ Get your reading at [Your Website URL]
             )}
           </button>
         </form>
-          </div>
 
         {/* Fortune Modal */}
         {isModalOpen && dailyFortune && (
+      <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="bg-[#1d2a3a] rounded-xl max-w-2xl w-full mx-4 overflow-hidden">
+              <div className="flex justify-between items-center p-6 border-b border-[#d3ae8b]/20">
+                <h2 className="text-2xl font-playfair text-[#d3ae8b]">
+                  Your Daily Oracle Reading
+                </h2>
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="p-2 text-[#d3ae8b] hover:text-[#d3ae8b]/80"
+                >
+                  ×
+                </button>
+              </div>
          <div className="p-6">
               <h2 className="fortune-title">✨ Your Daily Oracle Reading ✨</h2>
               
@@ -215,12 +237,12 @@ Get your reading at [Your Website URL]
                   className="share-button"
                 >
                   💫 Share Your Reading
-                </button>
+               </button>
               </div>
             </div>
           </div>
         )}
-    
+      </main>
     </div>
   )
 }
