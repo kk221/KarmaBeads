@@ -119,16 +119,16 @@ Get your reading at [Your Website URL]
            {/* Main Content Container */}
       <main className="relative z-30 w-full max-w-4xl mx-auto p-4 flex flex-col items-center justify-center">
         {/* Logo and Form Container */}
-        <div className="w-full flex flex-col items-center gap-8">
+        <div className="absolute top-8 w-full flex justify-center">
           {/* Logo */}
-         <div className="relative w-[180px] h-[180px]">
+        <div className="relative w-[120px] h-[120px] mb-8 z-40">
           <Image
-            src="/public/images/logo.svg"
+            src="/images/logo.svg"
             alt="Oracle Logo"
             width={180}
             height={180}
             priority
-            className="drop-shadow-2xl object-contain"
+            className="drop-shadow-2xl"
              style={{
                 objectFit: 'contain',
                 opacity: 1 // Ensure full opacity
