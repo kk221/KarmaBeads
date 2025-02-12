@@ -78,13 +78,9 @@ Get your reading at [Your Website URL]
     try {
       setIsLoading(true)
       setError(null)
+      setDailyFortune(null)
       
-       const response = await fetch(`/api/daily-fortune?sign=${sign}`, {
-        method: 'GET',
-        headers: {
-          'Cache-Control': 'no-cache'
-        }
-      })
+      const response = await fetch(`/api/daily-fortune?sign=${sign}`)
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -100,19 +96,12 @@ Get your reading at [Your Website URL]
       setIsModalOpen(true)
     } catch (error) {
       console.error('Error fetching horoscope:', error)
-      setError('Failed to fetch your horoscope. Please try again.')
+      setError(error.message || 'Failed to fetch your horoscope. Please try again.')
     } finally {
       setIsLoading(false)
     }
   }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (selectedSign) {
-      await fetchHoroscope(selectedSign)
-    }
-  }
-
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center min-h-screen bg-[#1d2a3a]">
       <StarsBackground />
@@ -183,32 +172,22 @@ Get your reading at [Your Website URL]
 
         {/* Fortune Modal */}
         {isModalOpen && dailyFortune && (
-          <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
-            <div className="modal-content" id="fortune-card" onClick={e => e.stopPropagation()}>
-              <button className="modal-close" onClick={() => setIsModalOpen(false)}>×</button>
-
-              <div className="p-6">
-                <h2 className="fortune-title">✨ Your Daily Oracle Reading ✨</h2>
-                
-                <p className="fortune-date">{dailyFortune.zodiacInfluence}</p>
-                
-                <div className="fortune-section">
-                  <h3>🌟 Positive Energies</h3>
-                  <ul>
-                    {dailyFortune.positiveEnergies.map((energy, index) => (
-                      <li key={index}>✧ {energy}</li>
-                    ))}
-                  </ul>
-                </div>
+         <div className="p-6">
+              <h2 className="fortune-title">✨ Your Daily Oracle Reading ✨</h2>
+              
+              <div className="fortune-section">
+                <h3>🌟 Zodiac Profile</h3>
+                <ul>
+                  {dailyFortune.positiveEnergies.map((energy, index) => (
+                    <li key={index}>✧ {energy}</li>
+                  ))}
+                </ul>
+              </div>
 
                 <div className="fortune-section">
-                  <h3>👁️ Points of Awareness</h3>
-                  <ul>
-                    {dailyFortune.awareness.map((point, index) => (
-                      <li key={index}>✧ {point}</li>
-                    ))}
-                  </ul>
-                </div>
+                <h3>👁️ Daily Guidance</h3>
+                <p>{dailyFortune.awareness[0]}</p>
+              </div>
 
                 <div className="fortune-section">
                   <h3>🎯 Lucky Elements</h3>
@@ -241,7 +220,7 @@ Get your reading at [Your Website URL]
             </div>
           </div>
         )}
-      </main>
+    
     </div>
   )
 }
