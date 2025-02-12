@@ -4,7 +4,11 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { FiChevronDown } from 'react-icons/fi'
 import StarsBackground from './StarsBackground'
-
+import dynamic from 'next/dynamic'
+// Dynamically import html2canvas with no SSR
+const html2canvas = dynamic(() => import('html2canvas'), {
+  ssr: false
+})
 
 
 export default function DailyOracle() {
