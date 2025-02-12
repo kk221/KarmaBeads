@@ -13,60 +13,6 @@ body {
   @apply bg-[#1d2a3a] text-[#d3ae8b] min-h-screen;
 }
 
-/* Navigation styles */
-.nav-link {
-  @apply text-lg font-medium transition-colors;
-}
-
-.nav-link-active {
-  @apply text-[#d3ae8b];
-}
-
-.nav-link-inactive {
-  @apply text-[#d3ae8b]/70 hover:text-[#d3ae8b];
-}
-
-/* Daily Oracle styles */
-.oracle-container {
-  @apply transition-all duration-500;
-}
-
-.oracle-text {
-  @apply text-[#d3ae8b]/90;
-}
-
-/* Category styles */
-.category-card {
-  @apply bg-[#2a3b4f] rounded-xl p-6 hover:shadow-lg transition-all duration-300;
-}
-
-.category-image {
-  @apply object-contain transition-transform duration-300 group-hover:scale-105;
-}
-
-.category-title {
-  @apply text-2xl font-playfair text-[#d3ae8b] mb-2;
-}
-
-.category-description {
-  @apply text-[#d3ae8b]/80 text-lg;
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out forwards;
-}
-
 /* Stars background effect */
 .stars {
   position: fixed;
@@ -76,6 +22,7 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 0;
+  background-color: #1d2a3a;
 }
 
 .star {
@@ -141,4 +88,19 @@ body {
     opacity: 0;
     transform: translateX(200%) translateY(-200%) rotate(-45deg);
   }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
 }
