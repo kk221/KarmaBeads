@@ -66,3 +66,79 @@ body {
 .animate-fade-in-up {
   animation: fade-in-up 0.6s ease-out forwards;
 }
+
+/* Stars background effect */
+.stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  background: #d3ae8b;
+  border-radius: 50%;
+  opacity: 0;
+  animation: starAnimation 3s infinite;
+}
+
+@keyframes starAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0) translateY(0);
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1) translateY(-100px);
+  }
+}
+
+/* Different star sizes */
+.star--small {
+  width: 2px;
+  height: 2px;
+}
+
+.star--medium {
+  width: 3px;
+  height: 3px;
+}
+
+.star--big {
+  width: 4px;
+  height: 4px;
+}
+
+/* Shooting star effect */
+.shooting-star {
+  position: absolute;
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, #d3ae8b, transparent);
+  opacity: 0;
+  animation: shootingStarAnimation 4s infinite;
+}
+
+@keyframes shootingStarAnimation {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%) translateY(0) rotate(-45deg);
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(200%) translateY(-200%) rotate(-45deg);
+  }
+}
