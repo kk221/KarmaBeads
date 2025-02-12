@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { FiChevronDown } from 'react-icons/fi'
+import StarsBackground from './StarsBackground'
+
 
 
 export default function DailyOracle() {
@@ -41,8 +43,9 @@ export default function DailyOracle() {
   }
 
   return (
- <div className="flex-1"> {/* Use flex-1 to fill remaining space */}
-      <div className="max-w-4xl mx-auto px-4 py-12">
+    <section className="min-h-screen flex items-center justify-center py-8 px-4 relative overflow-hidden">
+      <StarsBackground />
+      <div className="max-w-3xl w-full relative z-10">
         <div className="text-center space-y-12">
           {/* Zodiac Selection */}
           <div className="relative inline-block w-full max-w-xs">
@@ -120,6 +123,6 @@ export default function DailyOracle() {
         </div>
       </div>
 
-    </div>
+    </section>
   )
 }    
