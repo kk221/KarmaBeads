@@ -60,18 +60,18 @@ Get your reading at [Your Website URL]
   }
 
   const zodiacSigns = [
-    { sign: 'aries', symbol: '♈' },
-    { sign: 'taurus', symbol: '♉' },
-    { sign: 'gemini', symbol: '♊' },
-    { sign: 'cancer', symbol: '♋' },
-    { sign: 'leo', symbol: '♌' },
-    { sign: 'virgo', symbol: '♍' },
-    { sign: 'libra', symbol: '♎' },
-    { sign: 'scorpio', symbol: '♏' },
-    { sign: 'sagittarius', symbol: '♐' },
-    { sign: 'capricorn', symbol: '♑' },
-    { sign: 'aquarius', symbol: '♒' },
-    { sign: 'pisces', symbol: '♓' }
+    { sign: 'aries', symbol: '♈', name: 'Aries', date: 'Mar 21 - Apr 19', element: '🔥' },
+    { sign: 'taurus', symbol: '♉', name: 'Taurus', date: 'Apr 20 - May 20', element: '🌍' },
+    { sign: 'gemini', symbol: '♊', name: 'Gemini', date: 'May 21 - Jun 20', element: '💨' },
+    { sign: 'cancer', symbol: '♋', name: 'Cancer', date: 'Jun 21 - Jul 22', element: '💧' },
+    { sign: 'leo', symbol: '♌', name: 'Leo', date: 'Jul 23 - Aug 22', element: '🔥' },
+    { sign: 'virgo', symbol: '♍', name: 'Virgo', date: 'Aug 23 - Sep 22', element: '🌍' },
+    { sign: 'libra', symbol: '♎', name: 'Libra', date: 'Sep 23 - Oct 22', element: '💨' },
+    { sign: 'scorpio', symbol: '♏', name: 'Scorpio', date: 'Oct 23 - Nov 21', element: '💧' },
+    { sign: 'sagittarius', symbol: '♐', name: 'Sagittarius', date: 'Nov 22 - Dec 21', element: '🔥' },
+    { sign: 'capricorn', symbol: '♑', name: 'Capricorn', date: 'Dec 22 - Jan 19', element: '🌍' },
+    { sign: 'aquarius', symbol: '♒', name: 'Aquarius', date: 'Jan 20 - Feb 18', element: '💨' },
+    { sign: 'pisces', symbol: '♓', name: 'Pisces', date: 'Feb 19 - Mar 20', element: '💧' }
   ]
 
   const fetchHoroscope = async (sign) => {
