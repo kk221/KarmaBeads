@@ -206,3 +206,29 @@ body {
     opacity: 0.15;
   }
 }
+
+/* Replace download-button with share-button */
+.share-button {
+  width: 100%;
+  padding: 12px;
+  background: #2a3b4f;
+  border: 1px solid #d3ae8b;
+  color: #d3ae8b;
+  border-radius: 8px;
+  margin-top: 24px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.share-button:hover {
+  background: #3a4b5f;
+  transform: translateY(-2px);
+}
+
+.share-button:active {
+  transform: translateY(0);
+}
