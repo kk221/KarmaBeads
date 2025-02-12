@@ -1,40 +1,43 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
-import { FiChevronDown } from 'react-icons/fi'
 import StarsBackground from './StarsBackground'
-
-
+import html2canvas from 'html2canvas'
 
 export default function DailyOracle() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isSignSelectorOpen, setIsSignSelectorOpen] = useState(false)
   const [selectedSign, setSelectedSign] = useState(null)
   const [dailyFortune, setDailyFortune] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
   const zodiacSigns = [
-    { name: 'Aries', dates: 'Mar 21 - Apr 19' },
-    { name: 'Taurus', dates: 'Apr 20 - May 20' },
-    { name: 'Gemini', dates: 'May 21 - Jun 20' },
-    { name: 'Cancer', dates: 'Jun 21 - Jul 22' },
-    { name: 'Leo', dates: 'Jul 23 - Aug 22' },
-    { name: 'Virgo', dates: 'Aug 23 - Sep 22' },
-    { name: 'Libra', dates: 'Sep 23 - Oct 22' },
-    { name: 'Scorpio', dates: 'Oct 23 - Nov 21' },
-    { name: 'Sagittarius', dates: 'Nov 22 - Dec 21' },
-    { name: 'Capricorn', dates: 'Dec 22 - Jan 19' },
-    { name: 'Aquarius', dates: 'Jan 20 - Feb 18' },
-    { name: 'Pisces', dates: 'Feb 19 - Mar 20' }
+    { sign: 'aries', symbol: '♈' },
+    { sign: 'taurus', symbol: '♉' },
+    { sign: 'gemini', symbol: '♊' },
+    { sign: 'cancer', symbol: '♋' },
+    { sign: 'leo', symbol: '♌' },
+    { sign: 'virgo', symbol: '♍' },
+    { sign: 'libra', symbol: '♎' },
+    { sign: 'scorpio', symbol: '♏' },
+    { sign: 'sagittarius', symbol: '♐' },
+    { sign: 'capricorn', symbol: '♑' },
+    { sign: 'aquarius', symbol: '♒' },
+    { sign: 'pisces', symbol: '♓' }
   ]
 
-  // Simplified fetch function
   const fetchHoroscope = async (sign) => {
     try {
       setIsLoading(true)
       const response = await fetch(`/api/daily-fortune?sign=${sign}`)
       const data = await response.json()
-      setDailyFortune(data)
+      
+      if (response.ok) {
+        setDailyFortune(data)
+        setIsSignSelectorOpen(false)
+        setIsModalOpen(true)
+      }
     } catch (error) {
       console.error('Error:', error)
     } finally {
@@ -42,87 +45,133 @@ export default function DailyOracle() {
     }
   }
 
-  return (
-    <section className="min-h-screen flex items-center justify-center py-8 px-4 relative overflow-hidden bg-[#1d2a3a]">
-      <StarsBackground />
-      <div className="max-w-3xl w-full relative z-10">
-        <div className="text-center space-y-12">
-          {/* Zodiac Selection */}
-          <div className="relative inline-block w-full max-w-xs">
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-full py-4 px-6 bg-[#2a3b4f] rounded-xl text-[#d3ae8b] flex justify-between items-center hover:bg-[#2a3b4f]/90 transition-colors"
-            >
-              {selectedSign || 'Select Your Zodiac Sign'}
-              <FiChevronDown className={`transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
-            </button>
+  const handleSignSelect = (sign) => {
+    setSelectedSign(sign)
+    fetchHoroscope(sign)
+  }
 
-            {isDropdownOpen && (
-              <div className="absolute mt-2 w-full bg-[#2a3b4f] rounded-xl shadow-lg z-50">
-                {zodiacSigns.map((sign) => (
+  const downloadAsImage = async () => {
+    const element = document.getElementById('fortune-card')
+    const canvas = await html2canvas(element)
+    const data = canvas.toDataURL('image/png')
+    const link = document.createElement('a')
+    link.href = data
+    link.download = 'my-daily-fortune.png'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  return (
+    <section className="min-h-screen relative overflow-hidden bg-[#1d2a3a]">
+      <StarsBackground />
+      
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
+        {/* Logo */}
+        <div className="mb-12 animate-float">
+          <Image
+            src="/images/logo.svg"
+            alt="Oracle Logo"
+            width={180}
+            height={180}
+            priority
+          />
+        </div>
+
+        {/* CTA Button */}
+        <button
+          onClick={() => setIsSignSelectorOpen(true)}
+          className="cta-button"
+        >
+          <span className="star-icon">✨</span>
+          Get Your Daily Prediction
+          <span className="star-icon">✨</span>
+        </button>
+
+        {/* Sign Selector Modal */}
+        {isSignSelectorOpen && (
+          <div className="modal-overlay" onClick={() => setIsSignSelectorOpen(false)}>
+            <div className="sign-selector" onClick={e => e.stopPropagation()}>
+              <button className="modal-close" onClick={() => setIsSignSelectorOpen(false)}>×</button>
+              <h2 className="sign-selector-title">Select Your Sun Sign</h2>
+              <div className="signs-grid">
+                {zodiacSigns.map(({ sign, symbol }) => (
                   <button
-                    key={sign.name}
-                    onClick={() => {
-                      setSelectedSign(sign.name)
-                      setIsDropdownOpen(false)
-                      fetchHoroscope(sign.name.toLowerCase())
-                    }}
-                    className="w-full px-6 py-3 text-left text-[#d3ae8b] hover:bg-[#1d2a3a] transition-colors border-t border-[#d3ae8b]/10 first:border-t-0"
+                    key={sign}
+                    onClick={() => handleSignSelect(sign)}
+                    className="sign-button"
+                    disabled={isLoading}
                   >
-                    <span className="block font-medium">{sign.name}</span>
-                    <span className="block text-sm text-[#d3ae8b]/60">{sign.dates}</span>
+                    <span className="sign-symbol">{symbol}</span>
+                    <span className="sign-name">{sign}</span>
                   </button>
                 ))}
               </div>
-            )}
+            </div>
           </div>
+        )}
 
-          {/* Content Area */}
-          {isLoading ? (
-            <div className="py-16">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#d3ae8b] mx-auto"></div>
-            </div>
-          ) : dailyFortune ? (
-            <div className="space-y-8 animate-fade-in">
-              {/* Positive Energies */}
-              <div className="bg-[#2a3b4f] rounded-xl p-8 space-y-4">
-                <h3 className="text-2xl text-[#d3ae8b] font-medium">Today's Guidance</h3>
-                <p className="text-[#d3ae8b]/90 leading-relaxed">{dailyFortune.zodiacInfluence}</p>
-              </div>
+        {/* Fortune Modal */}
+        {isModalOpen && dailyFortune && (
+          <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
+            <div className="modal-content" id="fortune-card" onClick={e => e.stopPropagation()}>
+              <button className="modal-close" onClick={() => setIsModalOpen(false)}>×</button>
 
-              {/* Highlights Grid */}
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="bg-[#2a3b4f] rounded-xl p-8 space-y-4">
-                  <h3 className="text-xl text-[#d3ae8b] font-medium">Positive Energies</h3>
-                  <ul className="space-y-3">
-                    {dailyFortune.positiveEnergies.map((item, i) => (
-                      <li key={i} className="flex items-start space-x-3 text-[#d3ae8b]/90">
-                        <span className="text-[#d3ae8b] mt-1">•</span>
-                        <span>{item}</span>
-                      </li>
+              <div className="fortune-content">
+                <h2 className="fortune-title">✨ Your Daily Oracle Reading ✨</h2>
+                
+                <p className="fortune-date">{dailyFortune.zodiacInfluence}</p>
+                
+                <div className="fortune-section">
+                  <h3>🌟 Positive Energies</h3>
+                  <ul>
+                    {dailyFortune.positiveEnergies.map((energy, index) => (
+                      <li key={index}>✧ {energy}</li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="bg-[#2a3b4f] rounded-xl p-8 space-y-4">
-                  <h3 className="text-xl text-[#d3ae8b] font-medium">Points of Awareness</h3>
-                  <ul className="space-y-3">
-                    {dailyFortune.awareness.map((item, i) => (
-                      <li key={i} className="flex items-start space-x-3 text-[#d3ae8b]/90">
-                        <span className="text-[#d3ae8b] mt-1">•</span>
-                        <span>{item}</span>
-                      </li>
+                <div className="fortune-section">
+                  <h3>👁️ Points of Awareness</h3>
+                  <ul>
+                    {dailyFortune.awareness.map((point, index) => (
+                      <li key={index}>✧ {point}</li>
                     ))}
                   </ul>
                 </div>
+
+                <div className="fortune-section">
+                  <h3>🎯 Lucky Elements</h3>
+                  <div className="lucky-grid">
+                    <div>
+                      <span className="lucky-icon">🔢</span>
+                      <p>Number</p>
+                      <p>{dailyFortune.lucky.number}</p>
+                    </div>
+                    <div>
+                      <span className="lucky-icon">⏰</span>
+                      <p>Time</p>
+                      <p>{dailyFortune.lucky.time}</p>
+                    </div>
+                    <div>
+                      <span className="lucky-icon">🎨</span>
+                      <p>Color</p>
+                      <p>{dailyFortune.lucky.color}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={downloadAsImage}
+                  className="download-button"
+                >
+                  💫 Save Your Reading
+                </button>
               </div>
             </div>
-          ) : (
-            <p className="text-[#d3ae8b]/60 py-12">Select your zodiac sign to reveal today's guidance</p>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-
     </section>
   )
-}    
+}
