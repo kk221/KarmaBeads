@@ -12,6 +12,53 @@ export default function DailyOracle() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
+    // Add shareReading function
+  const shareReading = async () => {
+    if (!dailyFortune) return
+
+    const shareText = `
+🌟 My Daily Oracle Reading for ${dailyFortune.zodiacInfluence}
+
+✨ Zodiac Energies:
+${dailyFortune.positiveEnergies.join('\n')}
+
+👁️ Daily Guidance:
+${Array.isArray(dailyFortune.awareness) 
+  ? dailyFortune.awareness.join('\n')
+  : dailyFortune.awareness}
+
+🎯 Lucky Elements:
+Number: ${dailyFortune.lucky.number}
+Time: ${dailyFortune.lucky.time}
+Color: ${dailyFortune.lucky.color}
+
+Get your reading at [Your Website URL]
+    `.trim()
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'My Daily Oracle Reading',
+          text: shareText
+        })
+      } else {
+        // Fallback for browsers that don't support Web Share API
+        await navigator.clipboard.writeText(shareText)
+        alert('Reading copied to clipboard!')
+      }
+    } catch (error) {
+      console.error('Error sharing:', error)
+      // Fallback to clipboard
+      try {
+        await navigator.clipboard.writeText(shareText)
+        alert('Reading copied to clipboard!')
+      } catch (clipboardError) {
+        console.error('Error copying to clipboard:', clipboardError)
+        setError('Unable to share reading. Please try again.')
+      }
+    }
+  }
+
   const zodiacSigns = [
     { sign: 'aries', symbol: '♈' },
     { sign: 'taurus', symbol: '♉' },
@@ -67,7 +114,7 @@ export default function DailyOracle() {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center min-h-screen bg-[#1d2a3a] overflow-hidden">
+    <div className="fixed inset-0 flex items-center justify-center min-h-screen bg-[#1d2a3a]">
       <StarsBackground />
            {/* Main Content Container */}
       <main className="relative z-30 w-full max-w-4xl mx-auto p-4 flex flex-col items-center justify-center">
@@ -76,12 +123,16 @@ export default function DailyOracle() {
           {/* Logo */}
          <div className="relative w-[180px] h-[180px]">
           <Image
-            src="/images/logo.svg"
+            src="/public/images/logo.svg"
             alt="Oracle Logo"
             width={180}
             height={180}
             priority
             className="drop-shadow-2xl object-contain"
+             style={{
+                objectFit: 'contain',
+                opacity: 1 // Ensure full opacity
+              }}
           />
         </div>
         {/* Error Message */}
