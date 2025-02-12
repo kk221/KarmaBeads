@@ -7,25 +7,11 @@ export default function StarsBackground() {
 
   useEffect(() => {
     const starsContainer = starsRef.current
-    const numberOfStars = 100 // Increased from 50
-    const numberOfShootingStars = 5 // Increased from 3
-    const numberOfZodiacSigns = 12
+    const numberOfStars = 100
+    const numberOfShootingStars = 5
 
-    // Zodiac symbols
-    const zodiacSymbols = {
-      aries: '♈',
-      taurus: '♉',
-      gemini: '♊',
-      cancer: '♋',
-      leo: '♌',
-      virgo: '♍',
-      libra: '♎',
-      scorpio: '♏',
-      sagittarius: '♐',
-      capricorn: '♑',
-      aquarius: '♒',
-      pisces: '♓'
-    }
+    // Only zodiac symbols
+    const zodiacSymbols = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓']
 
     // Create regular stars
     for (let i = 0; i < numberOfStars; i++) {
@@ -48,15 +34,18 @@ export default function StarsBackground() {
     }
 
     // Create floating zodiac symbols
-    Object.values(zodiacSymbols).forEach((symbol) => {
-      const zodiac = document.createElement('div')
-      zodiac.className = 'zodiac-symbol'
-      zodiac.textContent = symbol
-      zodiac.style.left = `${Math.random() * 100}%`
-      zodiac.style.top = `${Math.random() * 100}%`
-      zodiac.style.animationDelay = `${Math.random() * 10}s`
-      zodiac.style.animationDuration = `${15 + Math.random() * 15}s`
-      starsContainer.appendChild(zodiac)
+    zodiacSymbols.forEach((symbol) => {
+      const zodiacElement = document.createElement('div')
+      zodiacElement.className = 'zodiac-symbol'
+      zodiacElement.textContent = symbol
+      zodiacElement.style.left = `${Math.random() * 90 + 5}%`
+      zodiacElement.style.top = `${Math.random() * 90 + 5}%`
+      zodiacElement.style.animationDelay = `${Math.random() * 10}s`
+      zodiacElement.style.color = '#d3ae8b'
+      zodiacElement.style.setProperty('--rotation-speed', `${20 + Math.random() * 10}s`)
+      zodiacElement.style.setProperty('--float-distance', `${10 + Math.random() * 20}px`)
+      
+      starsContainer.appendChild(zodiacElement)
     })
 
     return () => {
