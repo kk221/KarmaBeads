@@ -227,6 +227,8 @@ body {
 
 /* Main CTA Button */
 .main-cta-button {
+  position: relative;
+  z-index: 30;
   width: 100%;
   padding: 16px 32px;
   font-size: 1.2rem;
@@ -279,10 +281,11 @@ body {
 
 /* Logo styles */
 .logo-container {
-  position: relative;
-  width: 180px;
-  height: 180px;
-  margin-bottom: 2rem;
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
 }
 
 /* Form container */
@@ -296,7 +299,8 @@ body {
 
 /* Select container */
 .zodiac-select-container {
-  width: 100%;
+  z-index: 30;
+  position: relative;
 }
 
 .select-zodiac {
