@@ -67,35 +67,37 @@ export default function DailyOracle() {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#1d2a3a] overflow-hidden">
+    <div className="fixed inset-0 flex items-center justify-center min-h-screen bg-[#1d2a3a] overflow-hidden">
       <StarsBackground />
-      
-      <div className="relative z-30 flex flex-col items-center justify-center gap-8 p-4">
-        {/* Logo */}
-        <div className="animate-float">
+           {/* Main Content Container */}
+      <main className="relative z-30 w-full max-w-4xl mx-auto p-4 flex flex-col items-center justify-center">
+        {/* Logo and Form Container */}
+        <div className="w-full flex flex-col items-center gap-8">
+          {/* Logo */}
+         <div className="relative w-[180px] h-[180px]">
           <Image
             src="/images/logo.svg"
             alt="Oracle Logo"
             width={180}
             height={180}
             priority
-            className="drop-shadow-2xl"
+            className="drop-shadow-2xl object-contain"
           />
         </div>
         {/* Error Message */}
         {error && (
-          <div className="text-red-400 bg-red-900/20 px-4 py-2 rounded-lg">
-            {error}
+          <div className="w-full max-w-md text-center text-red-400 bg-red-900/20 px-4 py-2 rounded-lg">
+              {error}
           </div>
         )}
 
         {/* Sun Sign Selection Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
-          <div className="zodiac-select-container">
+        <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col items-center gap-6">
+          <div className="w-full zodiac-select-container">
             <select
               value={selectedSign}
               onChange={(e) => setSelectedSign(e.target.value)}
-              className="select-zodiac"
+              className="select-zodiac w-full"
               required
             >
               <option value="" disabled>Choose Your Sun Sign</option>
@@ -113,7 +115,7 @@ export default function DailyOracle() {
             disabled={isLoading || !selectedSign}
           >
             {isLoading ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <span className="animate-spin">✨</span>
                 Reading the stars...
               </div>
@@ -126,6 +128,7 @@ export default function DailyOracle() {
             )}
           </button>
         </form>
+          </div>
 
         {/* Fortune Modal */}
         {isModalOpen && dailyFortune && (
@@ -187,7 +190,7 @@ export default function DailyOracle() {
             </div>
           </div>
         )}
-      </div>
+      </main>
     </div>
   )
 }
