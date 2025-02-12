@@ -55,5 +55,5 @@ export default function StarsBackground() {
     }
   }, [])
 
-  return <div ref={starsRef} className="stars bg-[#1d2a3a]" />
+  return <div ref={starsRef} className="stars fixed inset-0 z-10" /> // Fixed positioning and z-index
 }
