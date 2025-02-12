@@ -7,8 +7,25 @@ export default function StarsBackground() {
 
   useEffect(() => {
     const starsContainer = starsRef.current
-    const numberOfStars = 50
-    const numberOfShootingStars = 3
+    const numberOfStars = 100 // Increased from 50
+    const numberOfShootingStars = 5 // Increased from 3
+    const numberOfZodiacSigns = 12
+
+    // Zodiac symbols
+    const zodiacSymbols = {
+      aries: '♈',
+      taurus: '♉',
+      gemini: '♊',
+      cancer: '♋',
+      leo: '♌',
+      virgo: '♍',
+      libra: '♎',
+      scorpio: '♏',
+      sagittarius: '♐',
+      capricorn: '♑',
+      aquarius: '♒',
+      pisces: '♓'
+    }
 
     // Create regular stars
     for (let i = 0; i < numberOfStars; i++) {
@@ -29,6 +46,18 @@ export default function StarsBackground() {
       shootingStar.style.animationDelay = `${Math.random() * 4}s`
       starsContainer.appendChild(shootingStar)
     }
+
+    // Create floating zodiac symbols
+    Object.values(zodiacSymbols).forEach((symbol) => {
+      const zodiac = document.createElement('div')
+      zodiac.className = 'zodiac-symbol'
+      zodiac.textContent = symbol
+      zodiac.style.left = `${Math.random() * 100}%`
+      zodiac.style.top = `${Math.random() * 100}%`
+      zodiac.style.animationDelay = `${Math.random() * 10}s`
+      zodiac.style.animationDuration = `${15 + Math.random() * 15}s`
+      starsContainer.appendChild(zodiac)
+    })
 
     return () => {
       while (starsContainer.firstChild) {
