@@ -59,21 +59,19 @@ export default function DailyOracle() {
   }
 
   return (
-     <main className="relative min-h-screen overflow-hidden">
-      {/* Background */}
+    <div className="fixed inset-0 flex items-center justify-center bg-[#1d2a3a] overflow-hidden">
       <StarsBackground />
       
-      {/* Content */}
-      <div className="relative flex flex-col items-center justify-center min-h-screen">
-        {/* Logo Container */}
-        <div className="mb-8 transform hover:scale-105 transition-transform duration-300">
+      <div className="relative z-30 flex flex-col items-center justify-center gap-8 p-4">
+        {/* Logo */}
+        <div className="animate-float">
           <Image
             src="/images/logo.svg"
             alt="Oracle Logo"
-            width={150}
-            height={150}
+            width={180}
+            height={180}
             priority
-            className="relative z-30"
+            className="drop-shadow-2xl"
           />
         </div>
 
@@ -81,19 +79,29 @@ export default function DailyOracle() {
         <button
           onClick={() => setIsSignSelectorOpen(true)}
           className="main-cta-button"
+          disabled={isLoading}
         >
-          <span className="star-icon">✨</span>
-          Get Your Daily Prediction
-          <span className="star-icon">✨</span>
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <span className="animate-spin">✨</span>
+              Reading the stars...
+            </div>
+          ) : (
+            <>
+              <span className="star-icon">✨</span>
+              Get Your Daily Prediction
+              <span className="star-icon">✨</span>
+            </>
+          )}
         </button>
 
         {/* Sign Selector Modal */}
         {isSignSelectorOpen && (
           <div className="modal-overlay" onClick={() => setIsSignSelectorOpen(false)}>
-            <div className="sign-selector" onClick={e => e.stopPropagation()}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
               <button className="modal-close" onClick={() => setIsSignSelectorOpen(false)}>×</button>
-              <h2 className="sign-selector-title">Select Your Sun Sign</h2>
-              <div className="signs-grid">
+              <h2 className="text-2xl text-center mb-6">Select Your Sun Sign</h2>
+              <div className="grid grid-cols-3 gap-4 p-6">
                 {zodiacSigns.map(({ sign, symbol }) => (
                   <button
                     key={sign}
@@ -101,8 +109,8 @@ export default function DailyOracle() {
                     className="sign-button"
                     disabled={isLoading}
                   >
-                    <span className="sign-symbol">{symbol}</span>
-                    <span className="sign-name">{sign}</span>
+                    <span className="text-2xl mb-2">{symbol}</span>
+                    <span className="capitalize">{sign}</span>
                   </button>
                 ))}
               </div>
@@ -116,7 +124,7 @@ export default function DailyOracle() {
             <div className="modal-content" id="fortune-card" onClick={e => e.stopPropagation()}>
               <button className="modal-close" onClick={() => setIsModalOpen(false)}>×</button>
 
-              <div className="fortune-content">
+              <div className="p-6">
                 <h2 className="fortune-title">✨ Your Daily Oracle Reading ✨</h2>
                 
                 <p className="fortune-date">{dailyFortune.zodiacInfluence}</p>
@@ -171,6 +179,6 @@ export default function DailyOracle() {
           </div>
         )}
       </div>
-    </main>
+    </div>
   )
 }
