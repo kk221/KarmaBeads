@@ -59,25 +59,28 @@ export default function DailyOracle() {
   }
 
   return (
-    <section className="min-h-screen relative overflow-hidden bg-[#1d2a3a]">
+     <main className="relative min-h-screen overflow-hidden">
+      {/* Background */}
       <StarsBackground />
       
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
-        {/* Logo */}
-        <div className="mb-12 animate-float">
+      {/* Content */}
+      <div className="relative flex flex-col items-center justify-center min-h-screen">
+        {/* Logo Container */}
+        <div className="mb-8 transform hover:scale-105 transition-transform duration-300">
           <Image
             src="/images/logo.svg"
             alt="Oracle Logo"
-            width={180}
-            height={180}
+            width={150}
+            height={150}
             priority
+            className="relative z-30"
           />
         </div>
 
         {/* CTA Button */}
         <button
           onClick={() => setIsSignSelectorOpen(true)}
-          className="cta-button"
+          className="main-cta-button"
         >
           <span className="star-icon">✨</span>
           Get Your Daily Prediction
@@ -168,6 +171,6 @@ export default function DailyOracle() {
           </div>
         )}
       </div>
-    </section>
+    </main>
   )
 }
