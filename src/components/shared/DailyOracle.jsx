@@ -12,23 +12,98 @@ export default function DailyOracle() {
   const [isLoading, setIsLoading] = useState(false)
 
   const zodiacSigns = [
-    { sign: 'aries', symbol: '♈' },
-    { sign: 'taurus', symbol: '♉' },
-    { sign: 'gemini', symbol: '♊' },
-    { sign: 'cancer', symbol: '♋' },
-    { sign: 'leo', symbol: '♌' },
-    { sign: 'virgo', symbol: '♍' },
-    { sign: 'libra', symbol: '♎' },
-    { sign: 'scorpio', symbol: '♏' },
-    { sign: 'sagittarius', symbol: '♐' },
-    { sign: 'capricorn', symbol: '♑' },
-    { sign: 'aquarius', symbol: '♒' },
-    { sign: 'pisces', symbol: '♓' }
+    {
+      sign: 'aries',
+      symbol: '♈',
+      name: 'Aries',
+      date: 'Mar 21 - Apr 19',
+      element: '🔥 Fire'
+    },
+    {
+      sign: 'taurus',
+      symbol: '♉',
+      name: 'Taurus',
+      date: 'Apr 20 - May 20',
+      element: '🌍 Earth'
+    },
+    {
+      sign: 'gemini',
+      symbol: '♊',
+      name: 'Gemini',
+      date: 'May 21 - Jun 20',
+      element: '💨 Air'
+    },
+    {
+      sign: 'cancer',
+      symbol: '♋',
+      name: 'Cancer',
+      date: 'Jun 21 - Jul 22',
+      element: '💧 Water'
+    },
+    {
+      sign: 'leo',
+      symbol: '♌',
+      name: 'Leo',
+      date: 'Jul 23 - Aug 22',
+      element: '🔥 Fire'
+    },
+    {
+      sign: 'virgo',
+      symbol: '♍',
+      name: 'Virgo',
+      date: 'Aug 23 - Sep 22',
+      element: '🌍 Earth'
+    },
+    {
+      sign: 'libra',
+      symbol: '♎',
+      name: 'Libra',
+      date: 'Sep 23 - Oct 22',
+      element: '💨 Air'
+    },
+    {
+      sign: 'scorpio',
+      symbol: '♏',
+      name: 'Scorpio',
+      date: 'Oct 23 - Nov 21',
+      element: '💧 Water'
+    },
+    {
+      sign: 'sagittarius',
+      symbol: '♐',
+      name: 'Sagittarius',
+      date: 'Nov 22 - Dec 21',
+      element: '🔥 Fire'
+    },
+    {
+      sign: 'capricorn',
+      symbol: '♑',
+      name: 'Capricorn',
+      date: 'Dec 22 - Jan 19',
+      element: '🌍 Earth'
+    },
+    {
+      sign: 'aquarius',
+      symbol: '♒',
+      name: 'Aquarius',
+      date: 'Jan 20 - Feb 18',
+      element: '💨 Air'
+    },
+    {
+      sign: 'pisces',
+      symbol: '♓',
+      name: 'Pisces',
+      date: 'Feb 19 - Mar 20',
+      element: '💧 Water'
+    }
   ]
 
   const fetchHoroscope = async (sign) => {
     try {
       setIsLoading(true)
+      console.log('Fetching horoscope for sign:', sign) // Debug log
+
+
       const response = await fetch(`/api/daily-fortune?sign=${sign}`)
       const data = await response.json()
       
@@ -59,7 +134,7 @@ export default function DailyOracle() {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#1d2a3a] overflow-hidden">
+   <div className="fixed inset-0 flex items-center justify-center bg-[#1d2a3a] overflow-hidden">
       <StarsBackground />
       
       <div className="relative z-30 flex flex-col items-center justify-center gap-8 p-4">
@@ -75,48 +150,43 @@ export default function DailyOracle() {
           />
         </div>
 
-        {/* CTA Button */}
-        <button
-          onClick={() => setIsSignSelectorOpen(true)}
-          className="main-cta-button"
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <div className="flex items-center gap-2">
-              <span className="animate-spin">✨</span>
-              Reading the stars...
-            </div>
-          ) : (
-            <>
-              <span className="star-icon">✨</span>
-              Get Your Daily Prediction
-              <span className="star-icon">✨</span>
-            </>
-          )}
-        </button>
-
-        {/* Sign Selector Modal */}
-        {isSignSelectorOpen && (
-          <div className="modal-overlay" onClick={() => setIsSignSelectorOpen(false)}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-              <button className="modal-close" onClick={() => setIsSignSelectorOpen(false)}>×</button>
-              <h2 className="text-2xl text-center mb-6">Select Your Sun Sign</h2>
-              <div className="grid grid-cols-3 gap-4 p-6">
-                {zodiacSigns.map(({ sign, symbol }) => (
-                  <button
-                    key={sign}
-                    onClick={() => handleSignSelect(sign)}
-                    className="sign-button"
-                    disabled={isLoading}
-                  >
-                    <span className="text-2xl mb-2">{symbol}</span>
-                    <span className="capitalize">{sign}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+       {/* Sun Sign Selection Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
+          <div className="zodiac-select-container">
+            <select
+              value={selectedSign}
+              onChange={(e) => setSelectedSign(e.target.value)}
+              className="select-zodiac"
+              required
+            >
+              <option value="" disabled>Choose Your Sun Sign</option>
+              {zodiacSigns.map(({ sign, symbol, name, date, element }) => (
+                <option key={sign} value={sign} className="zodiac-option">
+                  {symbol} {name} • {date} • {element}
+                </option>
+              ))}
+            </select>
           </div>
-        )}
+
+          <button
+            type="submit"
+            className="main-cta-button"
+            disabled={isLoading || !selectedSign}
+          >
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <span className="animate-spin">✨</span>
+                Reading the stars...
+              </div>
+            ) : (
+              <>
+                <span className="star-icon">✨</span>
+                Get Your Daily Prediction
+                <span className="star-icon">✨</span>
+              </>
+            )}
+          </button>
+        </form>
 
         {/* Fortune Modal */}
         {isModalOpen && dailyFortune && (
