@@ -43,7 +43,7 @@ export default function DailyOracle() {
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center py-8 px-4 relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center py-8 px-4 relative overflow-hidden bg-[#1d2a3a]">
       <StarsBackground />
       <div className="max-w-3xl w-full relative z-10">
         <div className="text-center space-y-12">
