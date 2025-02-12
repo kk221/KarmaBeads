@@ -10,6 +10,7 @@ export default function DailyOracle() {
   const [selectedSign, setSelectedSign] = useState(null)
   const [dailyFortune, setDailyFortune] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   const zodiacSigns = [
     { sign: 'aries', symbol: '♈' },
@@ -29,32 +30,39 @@ export default function DailyOracle() {
   const fetchHoroscope = async (sign) => {
     try {
       setIsLoading(true)
-      const response = await fetch(`/api/daily-fortune?sign=${sign}`)
+      setError(null)
+      
+       const response = await fetch(`/api/daily-fortune?sign=${sign}`, {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      })
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
       const data = await response.json()
       
-      if (response.ok) {
-        setDailyFortune(data)
-        setIsSignSelectorOpen(false)
-        setIsModalOpen(true)
+      if (data.error) {
+        throw new Error(data.error)
       }
+
+      setDailyFortune(data)
+      setIsModalOpen(true)
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Error fetching horoscope:', error)
+      setError('Failed to fetch your horoscope. Please try again.')
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleSignSelect = (sign) => {
-    setSelectedSign(sign)
-    fetchHoroscope(sign)
-  }
-
-  const shareReading = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'My Daily Oracle Reading',
-        text: `${dailyFortune.zodiacInfluence}\n\n${dailyFortune.awareness.join('\n')}`,
-      }).catch(console.error)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (selectedSign) {
+      await fetchHoroscope(selectedSign)
     }
   }
 
@@ -74,49 +82,50 @@ export default function DailyOracle() {
             className="drop-shadow-2xl"
           />
         </div>
-
-        {/* CTA Button */}
-        <button
-          onClick={() => setIsSignSelectorOpen(true)}
-          className="main-cta-button"
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <div className="flex items-center gap-2">
-              <span className="animate-spin">✨</span>
-              Reading the stars...
-            </div>
-          ) : (
-            <>
-              <span className="star-icon">✨</span>
-              Get Your Daily Prediction
-              <span className="star-icon">✨</span>
-            </>
-          )}
-        </button>
-
-        {/* Sign Selector Modal */}
-        {isSignSelectorOpen && (
-          <div className="modal-overlay" onClick={() => setIsSignSelectorOpen(false)}>
-            <div className="modal-content" onClick={e => e.stopPropagation()}>
-              <button className="modal-close" onClick={() => setIsSignSelectorOpen(false)}>×</button>
-              <h2 className="text-2xl text-center mb-6">Select Your Sun Sign</h2>
-              <div className="grid grid-cols-3 gap-4 p-6">
-                {zodiacSigns.map(({ sign, symbol }) => (
-                  <button
-                    key={sign}
-                    onClick={() => handleSignSelect(sign)}
-                    className="sign-button"
-                    disabled={isLoading}
-                  >
-                    <span className="text-2xl mb-2">{symbol}</span>
-                    <span className="capitalize">{sign}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+        {/* Error Message */}
+        {error && (
+          <div className="text-red-400 bg-red-900/20 px-4 py-2 rounded-lg">
+            {error}
           </div>
         )}
+
+        {/* Sun Sign Selection Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
+          <div className="zodiac-select-container">
+            <select
+              value={selectedSign}
+              onChange={(e) => setSelectedSign(e.target.value)}
+              className="select-zodiac"
+              required
+            >
+              <option value="" disabled>Choose Your Sun Sign</option>
+              {zodiacSigns.map(({ sign, symbol, name, date, element }) => (
+                <option key={sign} value={sign} className="zodiac-option">
+                  {symbol} {name} • {date} • {element}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            className="main-cta-button"
+            disabled={isLoading || !selectedSign}
+          >
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <span className="animate-spin">✨</span>
+                Reading the stars...
+              </div>
+            ) : (
+              <>
+                <span className="star-icon">✨</span>
+                Get Your Daily Prediction
+                <span className="star-icon">✨</span>
+              </>
+            )}
+          </button>
+        </form>
 
         {/* Fortune Modal */}
         {isModalOpen && dailyFortune && (
