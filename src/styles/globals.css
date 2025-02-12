@@ -96,14 +96,16 @@ body {
   animation: clusterFloat 30s infinite;
 }
 
-/* UI Components */
+
+
+/* Share button styles */
 .share-button {
   width: 100%;
   padding: 12px;
-  background: #2a3b4f;
-  border: 1px solid #d3ae8b;
+  background: rgba(42, 59, 79, 0.9);
+  border: 2px solid #d3ae8b;
   color: #d3ae8b;
-  border-radius: 8px;
+  border-radius: 15px;
   margin-top: 24px;
   transition: all 0.2s ease;
   cursor: pointer;
@@ -111,15 +113,33 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  font-size: 1.1rem;
 }
 
 .share-button:hover {
-  background: #3a4b5f;
+  background: rgba(42, 59, 79, 1);
   transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(211, 174, 139, 0.2);
 }
 
 .share-button:active {
   transform: translateY(0);
+}
+
+
+/* Modal content styles */
+.fortune-title {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #d3ae8b;
+}
+
+.fortune-date {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #d3ae8b;
+  opacity: 0.8;
 }
 
 /* Animations */
@@ -311,3 +331,5 @@ body {
     padding: 14px 20px;
   }
 }
+
+
