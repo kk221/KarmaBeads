@@ -123,7 +123,7 @@ Get your reading at [Your Website URL]
           {/* Logo */}
         <div className="relative w-[120px] h-[120px] mb-8 z-40">
           <Image
-            src="/images/logo.svg"
+            src="https://raw.githubusercontent.com/kk221/KarmaBeads/main/public/images/logo.svg"
             alt="Oracle Logo"
             width={180}
             height={180}
