@@ -204,3 +204,43 @@ body {
 .animate-fade-in-up {
   animation: fade-in-up 0.6s ease-out forwards;
 }
+
+/* Main CTA Button */
+.main-cta-button {
+  position: relative;
+  z-index: 30;
+  background: transparent;
+  color: #d3ae8b;
+  padding: 16px 32px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  border: 2px solid #d3ae8b;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  backdrop-filter: blur(5px);
+  text-shadow: 0 0 10px rgba(211, 174, 139, 0.3);
+}
+
+.main-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(211, 174, 139, 0.2);
+  background: rgba(211, 174, 139, 0.1);
+}
+
+.main-cta-button:active {
+  transform: translateY(1px);
+}
+
+/* Modal z-index should be highest */
+.modal-overlay {
+  z-index: 40;
+}
+
+.star-icon {
+  font-size: 1.5rem;
+  animation: twinkle 1.5s infinite;
+}
