@@ -48,6 +48,27 @@ body {
 }
 
 /* Different star sizes */
+/* Additional star sizes */
+.star--tiny {
+  width: 1px;
+  height: 1px;
+}
+
+.star--extra-small {
+  width: 1.5px;
+  height: 1.5px;
+}
+
+/* Zodiac symbols */
+.zodiac-symbol {
+  position: absolute;
+  color: #d3ae8b;
+  opacity: 0.3;
+  font-size: 24px;
+  pointer-events: none;
+  animation: floatAnimation 20s ease-in-out infinite;
+}
+
 .star--small {
   width: 2px;
   height: 2px;
@@ -103,4 +124,61 @@ body {
 
 .animate-fade-in-up {
   animation: fade-in-up 0.6s ease-out forwards;
+}
+
+@keyframes floatAnimation {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.1;
+  }
+  25% {
+    transform: translate(10px, 10px) rotate(90deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(0, 20px) rotate(180deg);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translate(-10px, 10px) rotate(270deg);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+    opacity: 0.1;
+  }
+}
+
+/* Star twinkle effect */
+.star {
+  animation: twinkle 4s infinite;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.2; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.2; }
+}
+
+/* Additional shooting stars */
+.shooting-star--fast {
+  animation-duration: 2s;
+}
+
+.shooting-star--slow {
+  animation-duration: 6s;
+}
+
+/* Star clusters */
+.star-cluster {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  animation: clusterFloat 30s infinite;
+}
+
+@keyframes clusterFloat {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -20px); }
+  100% { transform: translate(0, 0); }
 }
