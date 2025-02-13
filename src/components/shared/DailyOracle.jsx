@@ -94,6 +94,8 @@ Get your reading at https://goodkarmabeads.com/
       }
 
       const data = await response.json()
+      console.log('API Response:', data) // Log the API response
+
       if (data.error) {
         throw new Error(data.error)
       }
