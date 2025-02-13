@@ -1,42 +1,48 @@
 import { NextResponse } from 'next/server'
+import {
+  getZodiacElement,
+  getZodiacQuality,
+  getLuckyNumber,
+  getLuckyTime,
+  getLuckyColor,
+  getCurrentSunSign
+} from '/src/lib/zodiacUtils'
 
 export const dynamic = 'force-dynamic' // This is important
 
-// app/api/daily-fortune/route.js
 export async function GET(request) {
   try {
     const sign = request.nextUrl.searchParams.get('sign')
+    const sunSign = sign?.toLowerCase() || getCurrentSunSign()
     
-    if (!sign) {
-      return NextResponse.json(
-        { error: 'Missing zodiac sign parameter' },
-        { status: 400 }
-      )
-    }
+    console.log('Fetching horoscope for:', sunSign)
 
-    const apiResponse = await fetch(
-      `https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sign}&day=today`,
-      { cache: 'no-store' }
+    const response = await fetch(
+      `https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sunSign}&day=today`,
+      { cache: 'no-store' } // Disable caching
     )
 
-    if (!apiResponse.ok) {
-      throw new Error(`External API responded with status: ${apiResponse.status}`)
+    if (!response.ok) {
+      throw new Error(`API responded with status: ${response.status}`)
     }
 
-    const externalData = await apiResponse.json()
-    
+    const data = await response.json()
+    console.log('API Response:', data)
+
     const fortune = {
       positiveEnergies: [
-        `Zodiac Sign: ${sign.toUpperCase()}`,
-        `Element: ${getZodiacElement(sign)}`,
-        `Quality: ${getZodiacQuality(sign)}`
+        `Zodiac Sign: ${sunSign.toUpperCase()}`,
+        `Element: ${getZodiacElement(sunSign)}`,
+        `Quality: ${getZodiacQuality(sunSign)}`
       ],
-      awareness: [externalData.data?.horoscope_data || 'No guidance available today'],
-      zodiacInfluence: `${sign.toUpperCase()} - ${new Date().toLocaleDateString()}`,
+      awareness: [
+        data.data.horoscope_data
+      ],
+      zodiacInfluence: `${sunSign.toUpperCase()} - ${new Date().toLocaleDateString()}`,
       lucky: {
         number: getLuckyNumber(),
         time: getLuckyTime(),
-        color: getLuckyColor(sign)
+        color: getLuckyColor(sunSign)
       }
     }
 
