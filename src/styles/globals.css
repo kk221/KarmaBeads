@@ -362,3 +362,60 @@ body {
   );
 }
 
+/* Carousel Styles */
+.carousel-card {
+  transition: transform 0.3s ease;
+}
+
+.carousel-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Image hover effect */
+.carousel-image {
+  transition: transform 0.5s ease;
+}
+
+.carousel-card:hover .carousel-image {
+  transform: scale(1.05);
+}
+
+/* Button hover effect */
+.explore-button {
+  transition: all 0.3s ease;
+}
+
+.explore-button:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* Section transitions */
+section {
+  position: relative;
+  z-index: 1;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Section spacing */
+.section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* Container max-width */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .section-padding {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
