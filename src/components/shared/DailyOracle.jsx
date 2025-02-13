@@ -9,7 +9,7 @@ import {
   getLuckyNumber,
   getLuckyTime,
   getLuckyColor
-} from '/src/lib/zodiacUtils' // Import helper functions
+} from '/src/lib/zodiacUtils'
 
 export default function DailyOracle() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -17,6 +17,53 @@ export default function DailyOracle() {
   const [dailyFortune, setDailyFortune] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  // Add shareReading function
+  const shareReading = async () => {
+    if (!dailyFortune) return
+
+    const shareText = `
+🌟 My Daily Oracle Reading for ${dailyFortune.zodiacInfluence}
+
+✨ Zodiac Energies:
+${dailyFortune.positiveEnergies.join('\n')}
+
+👁️ Daily Guidance:
+${Array.isArray(dailyFortune.awareness) 
+  ? dailyFortune.awareness.join('\n')
+  : dailyFortune.awareness}
+
+🎯 Lucky Elements:
+Number: ${dailyFortune.zodiacInfo.luckyNumber}
+Time: ${dailyFortune.zodiacInfo.luckyTime}
+Color: ${dailyFortune.zodiacInfo.luckyColor}
+
+Get your reading at https://goodkarmabeads.com/
+    `.trim()
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'My Daily Oracle Reading',
+          text: shareText
+        })
+      } else {
+        // Fallback for browsers that don't support Web Share API
+        await navigator.clipboard.writeText(shareText)
+        alert('Reading copied to clipboard!')
+      }
+    } catch (error) {
+      console.error('Error sharing:', error)
+      // Fallback to clipboard
+      try {
+        await navigator.clipboard.writeText(shareText)
+        alert('Reading copied to clipboard!')
+      } catch (clipboardError) {
+        console.error('Error copying to clipboard:', clipboardError)
+        setError('Unable to share reading. Please try again.')
+      }
+    }
+  }
 
   // Zodiac signs data
   const zodiacSigns = [
