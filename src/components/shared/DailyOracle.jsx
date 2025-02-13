@@ -199,72 +199,73 @@ Get your reading at https://goodkarmabeads.com/
 
         {/* Fortune Modal */}
         {isModalOpen && dailyFortune && (
-          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-[#1d2a3a] rounded-xl max-w-2xl w-full mx-4 overflow-hidden">
-              <div className="flex justify-between items-center p-6 border-b border-[#d3ae8b]/20">
-                <h2 className="text-2xl font-playfair text-[#d3ae8b]">
-                  Your Daily Oracle Reading
-                </h2>
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="p-2 text-[#d3ae8b] hover:text-[#d3ae8b]/80"
-                >
-                  ×
-                </button>
-              </div>
+  <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div className="bg-[#1d2a3a] rounded-xl max-w-2xl w-full mx-4 overflow-hidden">
+      <div className="flex justify-between items-center p-6 border-b border-[#d3ae8b]/20">
+        <h2 className="text-2xl font-playfair text-[#d3ae8b]">
+          Your Daily Oracle Reading
+        </h2>
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="p-2 text-[#d3ae8b] hover:text-[#d3ae8b]/80"
+        >
+          ×
+        </button>
+      </div>
 
-              <div className="p-6">
-                <h2 className="fortune-title">✨ Your Daily Oracle Reading ✨</h2>
+      <div className="p-6">
+        <h2 className="fortune-title">✨ {dailyFortune.zodiacInfluence} ✨</h2>
 
-                {/* Zodiac Info */}
-                <div className="fortune-section">
-                  <h3>🌟 Zodiac Profile</h3>
-                  <ul>
-                    <li>Element: {dailyFortune.zodiacInfo.element}</li>
-                    <li>Quality: {dailyFortune.zodiacInfo.quality}</li>
-                  </ul>
-                </div>
+        {/* Zodiac Profile */}
+        <div className="fortune-section">
+          <h3>🌟 Zodiac Profile</h3>
+          <ul className="space-y-2">
+            {dailyFortune.positiveEnergies.map((energy, index) => (
+              <li key={index} className="flex items-start gap-2">
+                <span className="text-[#d3ae8b]">▹</span>
+                {energy}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-                {/* Daily Guidance */}
-                <div className="fortune-section">
-                  <h3>👁️ Daily Guidance</h3>
-                  <p>{dailyFortune.awareness[0]}</p>
-                </div>
+        {/* Daily Guidance */}
+        <div className="fortune-section">
+          <h3>👁️ Daily Guidance</h3>
+          <p className="text-[#d3ae8b]/90 leading-relaxed">
+            {dailyFortune.awareness[0]}
+          </p>
+        </div>
 
-                {/* Lucky Elements */}
-                <div className="fortune-section">
-                  <h3>🎯 Lucky Elements</h3>
-                  <div className="lucky-grid">
-                    <div>
-                      <span className="lucky-icon">🔢</span>
-                      <p>Number</p>
-                      <p>{dailyFortune.zodiacInfo.luckyNumber}</p>
-                    </div>
-                    <div>
-                      <span className="lucky-icon">⏰</span>
-                      <p>Time</p>
-                      <p>{dailyFortune.zodiacInfo.luckyTime}</p>
-                    </div>
-                    <div>
-                      <span className="lucky-icon">🎨</span>
-                      <p>Color</p>
-                      <p>{dailyFortune.zodiacInfo.luckyColor}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Share Button */}
-                <button 
-                  onClick={shareReading}
-                  className="share-button"
-                >
-                  💫 Share Your Reading
-                </button>
-              </div>
+        {/* Lucky Elements */}
+        <div className="fortune-section">
+          <h3>🎯 Lucky Elements</h3>
+          <div className="grid grid-cols-3 gap-4 mt-4">
+            <div className="text-center p-3 bg-[#2a3b4f] rounded-lg">
+              <div className="text-2xl mb-1">🔢</div>
+              <p className="font-medium">Number</p>
+              <p>{dailyFortune.lucky.number}</p>
+            </div>
+            <div className="text-center p-3 bg-[#2a3b4f] rounded-lg">
+              <div className="text-2xl mb-1">⏰</div>
+              <p className="font-medium">Time</p>
+              <p>{dailyFortune.lucky.time}</p>
+            </div>
+            <div className="text-center p-3 bg-[#2a3b4f] rounded-lg">
+              <div className="text-2xl mb-1">🎨</div>
+              <p className="font-medium">Color</p>
+              <p>{dailyFortune.lucky.color}</p>
             </div>
           </div>
-        )}
-      </main>
+        </div>
+
+        <button 
+          onClick={shareReading}
+          className="w-full mt-6 px-6 py-3 bg-[#d3ae8b] text-[#1d2a3a] rounded-lg font-semibold hover:bg-[#d3ae8b]/90 transition-colors"
+        >
+          💫 Share Your Reading
+        </button>
+      </div>
     </div>
-  )
-}
+  </div>
+)}
