@@ -9,35 +9,35 @@ const divinationMethods = [
     id: 'birth-chart',
     title: 'Birth Chart',
     description: 'Discover your celestial blueprint and life path',
-    image: '/images/birth-chart.jpg',
+    image: '/images/birth-chart.svg',
     path: '/birth-chart'
   },
   {
     id: 'horoscope',
     title: 'Horoscope',
     description: 'Daily guidance from the stars',
-    image: '/images/horoscope.jpg',
+    image: '/images/horoscope.svg',
     path: '/horoscope'
   },
   {
     id: 'tarot',
     title: 'Tarot Reading',
     description: 'Unlock mystical insights with ancient cards',
-    image: '/images/tarot.jpg',
+    image: '/images/tarot-reading.svg',
     path: '/tarot'
   },
   {
     id: 'zodiac',
     title: 'Zodiac Signs',
     description: 'Explore the wisdom of the zodiac',
-    image: '/images/zodiac.jpg',
+    image: '/images/daily-zodiac.svg',
     path: '/zodiac'
   },
   {
     id: 'fengshui',
     title: 'Feng Shui',
     description: 'Harmonize your space and energy',
-    image: '/images/fengshui.jpg',
+    image: '/images/feng-shui.svg',
     path: '/fengshui'
   }
 ]
