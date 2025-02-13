@@ -3,62 +3,22 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import StarsBackground from './StarsBackground'
+import {
+  getZodiacElement,
+  getZodiacQuality,
+  getLuckyNumber,
+  getLuckyTime,
+  getLuckyColor
+} from '/src/lib/zodiacUtils' // Import helper functions
 
 export default function DailyOracle() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isSignSelectorOpen, setIsSignSelectorOpen] = useState(false)
   const [selectedSign, setSelectedSign] = useState(null)
   const [dailyFortune, setDailyFortune] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
-    // Add shareReading function
-  const shareReading = async () => {
-    if (!dailyFortune) return
-
-    const shareText = `
-🌟 My Daily Oracle Reading for ${dailyFortune.zodiacInfluence}
-
-✨ Zodiac Energies:
-${dailyFortune.positiveEnergies.join('\n')}
-
-👁️ Daily Guidance:
-${Array.isArray(dailyFortune.awareness) 
-  ? dailyFortune.awareness.join('\n')
-  : dailyFortune.awareness}
-
-🎯 Lucky Elements:
-Number: ${dailyFortune.lucky.number}
-Time: ${dailyFortune.lucky.time}
-Color: ${dailyFortune.lucky.color}
-
-Get your reading at [Your Website URL]
-    `.trim()
-
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: 'My Daily Oracle Reading',
-          text: shareText
-        })
-      } else {
-        // Fallback for browsers that don't support Web Share API
-        await navigator.clipboard.writeText(shareText)
-        alert('Reading copied to clipboard!')
-      }
-    } catch (error) {
-      console.error('Error sharing:', error)
-      // Fallback to clipboard
-      try {
-        await navigator.clipboard.writeText(shareText)
-        alert('Reading copied to clipboard!')
-      } catch (clipboardError) {
-        console.error('Error copying to clipboard:', clipboardError)
-        setError('Unable to share reading. Please try again.')
-      }
-    }
-  }
-
+  // Zodiac signs data
   const zodiacSigns = [
     { sign: 'aries', symbol: '♈', name: 'Aries', date: 'Mar 21 - Apr 19', element: '🔥' },
     { sign: 'taurus', symbol: '♉', name: 'Taurus', date: 'Apr 20 - May 20', element: '🌍' },
@@ -74,38 +34,46 @@ Get your reading at [Your Website URL]
     { sign: 'pisces', symbol: '♓', name: 'Pisces', date: 'Feb 19 - Mar 20', element: '💧' }
   ]
 
+  // Fetch horoscope data
   const fetchHoroscope = async (sign) => {
     try {
       setIsLoading(true)
       setError(null)
-      
-       const response = await fetch(`/api/daily-fortune?sign=${sign}`, {
-        method: 'GET',
-        headers: {
-          'Cache-Control': 'no-cache'
-        }
-      })
-      
+      setDailyFortune(null)
+
+      const response = await fetch(`/api/daily-fortune?sign=${sign}`)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
-      
+
       const data = await response.json()
-      
       if (data.error) {
         throw new Error(data.error)
       }
 
-      setDailyFortune(data)
+      // Add zodiac info using helper functions
+      const zodiacInfo = {
+        element: getZodiacElement(sign),
+        quality: getZodiacQuality(sign),
+        luckyNumber: getLuckyNumber(),
+        luckyTime: getLuckyTime(),
+        luckyColor: getLuckyColor(sign)
+      }
+
+      setDailyFortune({
+        ...data,
+        zodiacInfo // Include zodiac info in the fortune data
+      })
       setIsModalOpen(true)
     } catch (error) {
       console.error('Error fetching horoscope:', error)
-      setError('Failed to fetch your horoscope. Please try again.')
+      setError(error.message || 'Failed to fetch your horoscope. Please try again.')
     } finally {
       setIsLoading(false)
     }
   }
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (selectedSign) {
@@ -116,34 +84,34 @@ Get your reading at [Your Website URL]
   return (
     <div className="fixed inset-0 flex items-center justify-center min-h-screen bg-[#1d2a3a]">
       <StarsBackground />
-           {/* Main Content Container */}
       <main className="relative z-30 w-full max-w-4xl mx-auto p-4 flex flex-col items-center justify-center">
         {/* Logo and Form Container */}
         <div className="absolute top-8 w-full flex justify-center">
-          {/* Logo */}
-        <div className="relative w-[120px] h-[120px] mb-8 z-40">
-          <Image
-            src="https://raw.githubusercontent.com/kk221/KarmaBeads/main/public/images/logo.svg"
-            alt="Oracle Logo"
-            width={180}
-            height={180}
-            priority
-            className="drop-shadow-2xl"
-             style={{
+          <div className="relative w-[120px] h-[120px] mb-8 z-40">
+            <Image
+              src="https://raw.githubusercontent.com/kk221/KarmaBeads/main/public/images/logo.svg"
+              alt="Oracle Logo"
+              width={180}
+              height={180}
+              priority
+              className="drop-shadow-2xl"
+              style={{
                 objectFit: 'contain',
-                opacity: 1 // Ensure full opacity
+                opacity: 1
               }}
-          />
+            />
+          </div>
         </div>
+
         {/* Error Message */}
         {error && (
           <div className="w-full max-w-md text-center text-red-400 bg-red-900/20 px-4 py-2 rounded-lg">
-              {error}
+            {error}
           </div>
         )}
 
         {/* Sun Sign Selection Form */}
-        <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col items-center gap-6">
+        <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col items-center gap-6 mt-32">
           <div className="w-full zodiac-select-container">
             <select
               value={selectedSign}
@@ -179,58 +147,64 @@ Get your reading at [Your Website URL]
             )}
           </button>
         </form>
-          </div>
 
         {/* Fortune Modal */}
         {isModalOpen && dailyFortune && (
-          <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
-            <div className="modal-content" id="fortune-card" onClick={e => e.stopPropagation()}>
-              <button className="modal-close" onClick={() => setIsModalOpen(false)}>×</button>
+          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="bg-[#1d2a3a] rounded-xl max-w-2xl w-full mx-4 overflow-hidden">
+              <div className="flex justify-between items-center p-6 border-b border-[#d3ae8b]/20">
+                <h2 className="text-2xl font-playfair text-[#d3ae8b]">
+                  Your Daily Oracle Reading
+                </h2>
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="p-2 text-[#d3ae8b] hover:text-[#d3ae8b]/80"
+                >
+                  ×
+                </button>
+              </div>
 
               <div className="p-6">
                 <h2 className="fortune-title">✨ Your Daily Oracle Reading ✨</h2>
-                
-                <p className="fortune-date">{dailyFortune.zodiacInfluence}</p>
-                
+
+                {/* Zodiac Info */}
                 <div className="fortune-section">
-                  <h3>🌟 Positive Energies</h3>
+                  <h3>🌟 Zodiac Profile</h3>
                   <ul>
-                    {dailyFortune.positiveEnergies.map((energy, index) => (
-                      <li key={index}>✧ {energy}</li>
-                    ))}
+                    <li>Element: {dailyFortune.zodiacInfo.element}</li>
+                    <li>Quality: {dailyFortune.zodiacInfo.quality}</li>
                   </ul>
                 </div>
 
+                {/* Daily Guidance */}
                 <div className="fortune-section">
-                  <h3>👁️ Points of Awareness</h3>
-                  <ul>
-                    {dailyFortune.awareness.map((point, index) => (
-                      <li key={index}>✧ {point}</li>
-                    ))}
-                  </ul>
+                  <h3>👁️ Daily Guidance</h3>
+                  <p>{dailyFortune.awareness[0]}</p>
                 </div>
 
+                {/* Lucky Elements */}
                 <div className="fortune-section">
                   <h3>🎯 Lucky Elements</h3>
                   <div className="lucky-grid">
                     <div>
                       <span className="lucky-icon">🔢</span>
                       <p>Number</p>
-                      <p>{dailyFortune.lucky.number}</p>
+                      <p>{dailyFortune.zodiacInfo.luckyNumber}</p>
                     </div>
                     <div>
                       <span className="lucky-icon">⏰</span>
                       <p>Time</p>
-                      <p>{dailyFortune.lucky.time}</p>
+                      <p>{dailyFortune.zodiacInfo.luckyTime}</p>
                     </div>
                     <div>
                       <span className="lucky-icon">🎨</span>
                       <p>Color</p>
-                      <p>{dailyFortune.lucky.color}</p>
+                      <p>{dailyFortune.zodiacInfo.luckyColor}</p>
                     </div>
                   </div>
                 </div>
 
+                {/* Share Button */}
                 <button 
                   onClick={shareReading}
                   className="share-button"
