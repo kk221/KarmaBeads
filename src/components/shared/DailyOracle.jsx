@@ -9,7 +9,7 @@ import {
   getLuckyNumber,
   getLuckyTime,
   getLuckyColor
-} from '/src/lib/zodiacUtils'
+} from '@/lib/zodiacUtils'
 
 export default function DailyOracle() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -34,9 +34,9 @@ ${Array.isArray(dailyFortune.awareness)
   : dailyFortune.awareness}
 
 🎯 Lucky Elements:
-Number: ${dailyFortune.zodiacInfo.luckyNumber}
-Time: ${dailyFortune.zodiacInfo.luckyTime}
-Color: ${dailyFortune.zodiacInfo.luckyColor}
+Number: ${dailyFortune.lucky.number}
+Time: ${dailyFortune.lucky.time}
+Color: ${dailyFortune.lucky.color}
 
 Get your reading at https://goodkarmabeads.com/
     `.trim()
@@ -100,19 +100,7 @@ Get your reading at https://goodkarmabeads.com/
         throw new Error(data.error)
       }
 
-      // Add zodiac info using helper functions
-      const zodiacInfo = {
-        element: getZodiacElement(sign),
-        quality: getZodiacQuality(sign),
-        luckyNumber: getLuckyNumber(),
-        luckyTime: getLuckyTime(),
-        luckyColor: getLuckyColor(sign)
-      }
-
-      setDailyFortune({
-        ...data,
-        zodiacInfo // Include zodiac info in the fortune data
-      })
+      setDailyFortune(data) // Use the API response directly
       setIsModalOpen(true)
     } catch (error) {
       console.error('Error fetching horoscope:', error)
@@ -214,41 +202,47 @@ Get your reading at https://goodkarmabeads.com/
               </div>
 
               <div className="p-6">
-                <h2 className="fortune-title">✨ Your Daily Oracle Reading ✨</h2>
+                <h2 className="fortune-title">✨ {dailyFortune.zodiacInfluence} ✨</h2>
 
-                {/* Zodiac Info */}
+                {/* Zodiac Profile */}
                 <div className="fortune-section">
                   <h3>🌟 Zodiac Profile</h3>
-                  <ul>
-                    <li>Element: {dailyFortune.zodiacInfo.element}</li>
-                    <li>Quality: {dailyFortune.zodiacInfo.quality}</li>
+                  <ul className="space-y-2">
+                    {dailyFortune.positiveEnergies.map((energy, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="text-[#d3ae8b]">▹</span>
+                        {energy}
+                      </li>
+                    ))}
                   </ul>
                 </div>
 
                 {/* Daily Guidance */}
                 <div className="fortune-section">
                   <h3>👁️ Daily Guidance</h3>
-                  <p>{dailyFortune.awareness[0]}</p>
+                  <p className="text-[#d3ae8b]/90 leading-relaxed">
+                    {dailyFortune.awareness[0]}
+                  </p>
                 </div>
 
                 {/* Lucky Elements */}
                 <div className="fortune-section">
                   <h3>🎯 Lucky Elements</h3>
-                  <div className="lucky-grid">
-                    <div>
-                      <span className="lucky-icon">🔢</span>
-                      <p>Number</p>
-                      <p>{dailyFortune.zodiacInfo.luckyNumber}</p>
+                  <div className="grid grid-cols-3 gap-4 mt-4">
+                    <div className="text-center p-3 bg-[#2a3b4f] rounded-lg">
+                      <div className="text-2xl mb-1">🔢</div>
+                      <p className="font-medium">Number</p>
+                      <p>{dailyFortune.lucky.number}</p>
                     </div>
-                    <div>
-                      <span className="lucky-icon">⏰</span>
-                      <p>Time</p>
-                      <p>{dailyFortune.zodiacInfo.luckyTime}</p>
+                    <div className="text-center p-3 bg-[#2a3b4f] rounded-lg">
+                      <div className="text-2xl mb-1">⏰</div>
+                      <p className="font-medium">Time</p>
+                      <p>{dailyFortune.lucky.time}</p>
                     </div>
-                    <div>
-                      <span className="lucky-icon">🎨</span>
-                      <p>Color</p>
-                      <p>{dailyFortune.zodiacInfo.luckyColor}</p>
+                    <div className="text-center p-3 bg-[#2a3b4f] rounded-lg">
+                      <div className="text-2xl mb-1">🎨</div>
+                      <p className="font-medium">Color</p>
+                      <p>{dailyFortune.lucky.color}</p>
                     </div>
                   </div>
                 </div>
@@ -256,7 +250,7 @@ Get your reading at https://goodkarmabeads.com/
                 {/* Share Button */}
                 <button 
                   onClick={shareReading}
-                  className="share-button"
+                  className="w-full mt-6 px-6 py-3 bg-[#d3ae8b] text-[#1d2a3a] rounded-lg font-semibold hover:bg-[#d3ae8b]/90 transition-colors"
                 >
                   💫 Share Your Reading
                 </button>
