@@ -2,6 +2,8 @@
 
 import DailyOracle from '@/components/shared/DailyOracle'
 import DivinationCarousel from '@/components/shared/DivinationCarousel'
+import ScrollIndicator from '@/components/shared/ScrollIndicator'
+
 
 export default function Home() {
   return (
@@ -9,6 +11,7 @@ export default function Home() {
       {/* Hero Section with Daily Oracle */}
       <section className="min-h-screen relative">
         <DailyOracle />
+        <ScrollIndicator />
       </section>
 
       {/* Divination Methods Section */}
