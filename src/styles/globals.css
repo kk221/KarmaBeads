@@ -335,5 +335,30 @@ body {
     padding: 14px 20px;
   }
 }
+/* Fortune Card Styles */
+.fortune-card {
+  background: linear-gradient(to bottom, #1d2a3a, #2a3b4f);
+  border: 2px solid rgba(211, 174, 139, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
 
+.fortune-section {
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.fortune-section:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(211, 174, 139, 0.3),
+    transparent
+  );
+}
 
