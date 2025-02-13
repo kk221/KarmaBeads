@@ -118,6 +118,29 @@ Get your reading at https://goodkarmabeads.com/
     }
   }
 
+    // Add download card function
+  const downloadFortuneCard = async () => {
+    const cardElement = document.getElementById('fortune-card')
+    if (!cardElement) return
+
+    try {
+      const canvas = await html2canvas(cardElement, {
+        scale: 2,
+        backgroundColor: '#1d2a3a',
+        logging: false
+      })
+
+      const image = canvas.toDataURL('image/png')
+      const link = document.createElement('a')
+      link.href = image
+      link.download = `daily-oracle-${selectedSign}-${new Date().toISOString().split('T')[0]}.png`
+      link.click()
+    } catch (error) {
+      console.error('Error generating card:', error)
+      setError('Failed to download fortune card. Please try again.')
+    }
+  }
+
   return (
     <div className="fixed inset-0 flex items-center justify-center min-h-screen bg-[#1d2a3a]">
       <StarsBackground />
@@ -185,10 +208,11 @@ Get your reading at https://goodkarmabeads.com/
           </button>
         </form>
 
-        {/* Fortune Modal */}
+               {/* Fortune Card */}
         {isModalOpen && dailyFortune && (
           <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
             <div className="bg-[#1d2a3a] rounded-xl max-w-2xl w-full mx-4 overflow-hidden">
+              {/* Card Header */}
               <div className="flex justify-between items-center p-6 border-b border-[#d3ae8b]/20">
                 <h2 className="text-2xl font-playfair text-[#d3ae8b]">
                   Your Daily Oracle Reading
@@ -201,58 +225,77 @@ Get your reading at https://goodkarmabeads.com/
                 </button>
               </div>
 
-              <div className="p-6">
-                <h2 className="fortune-title">✨ {dailyFortune.zodiacInfluence} ✨</h2>
+              {/* Fortune Card Content */}
+              <div id="fortune-card" className="p-8 bg-gradient-to-b from-[#1d2a3a] to-[#2a3b4f] rounded-xl m-6 border-2 border-[#d3ae8b]/30">
+                {/* Card Header */}
+                <div className="text-center mb-6">
+                  <div className="text-4xl mb-2">{zodiacSigns.find(z => z.sign === selectedSign)?.symbol}</div>
+                  <h2 className="text-2xl font-playfair text-[#d3ae8b] mb-1">
+                    {dailyFortune.zodiacInfluence}
+                  </h2>
+                  <p className="text-[#d3ae8b]/60">{new Date().toLocaleDateString()}</p>
+                </div>
 
                 {/* Zodiac Profile */}
-                <div className="fortune-section">
-                  <h3>🌟 Zodiac Profile</h3>
-                  <ul className="space-y-2">
-                    {dailyFortune.positiveEnergies.map((energy, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <span className="text-[#d3ae8b]">▹</span>
-                        {energy}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <div className="space-y-6 text-[#d3ae8b]/90">
+                  <div className="fortune-section">
+                    <h3 className="text-lg font-medium mb-2">✨ Zodiac Energies</h3>
+                    <ul className="space-y-1">
+                      {dailyFortune.positiveEnergies.map((energy, index) => (
+                        <li key={index} className="flex items-center gap-2">
+                          <span>•</span> {energy}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                {/* Daily Guidance */}
-                <div className="fortune-section">
-                  <h3>👁️ Daily Guidance</h3>
-                  <p className="text-[#d3ae8b]/90 leading-relaxed">
-                    {dailyFortune.awareness[0]}
-                  </p>
-                </div>
+                  {/* Daily Guidance */}
+                  <div className="fortune-section">
+                    <h3 className="text-lg font-medium mb-2">👁️ Daily Guidance</h3>
+                    <p className="leading-relaxed">
+                      {dailyFortune.awareness[0]}
+                    </p>
+                  </div>
 
-                {/* Lucky Elements */}
-                <div className="fortune-section">
-                  <h3>🎯 Lucky Elements</h3>
-                  <div className="grid grid-cols-3 gap-4 mt-4">
-                    <div className="text-center p-3 bg-[#2a3b4f] rounded-lg">
-                      <div className="text-2xl mb-1">🔢</div>
-                      <p className="font-medium">Number</p>
-                      <p>{dailyFortune.lucky.number}</p>
-                    </div>
-                    <div className="text-center p-3 bg-[#2a3b4f] rounded-lg">
-                      <div className="text-2xl mb-1">⏰</div>
-                      <p className="font-medium">Time</p>
-                      <p>{dailyFortune.lucky.time}</p>
-                    </div>
-                    <div className="text-center p-3 bg-[#2a3b4f] rounded-lg">
-                      <div className="text-2xl mb-1">🎨</div>
-                      <p className="font-medium">Color</p>
-                      <p>{dailyFortune.lucky.color}</p>
+                  {/* Lucky Elements */}
+                  <div className="fortune-section">
+                    <h3 className="text-lg font-medium mb-3">🎯 Lucky Elements</h3>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="text-center p-3 bg-[#2a3b4f]/50 rounded-lg">
+                        <p className="text-sm">Number</p>
+                        <p className="text-xl">{dailyFortune.lucky.number}</p>
+                      </div>
+                      <div className="text-center p-3 bg-[#2a3b4f]/50 rounded-lg">
+                        <p className="text-sm">Time</p>
+                        <p className="text-xl">{dailyFortune.lucky.time}</p>
+                      </div>
+                      <div className="text-center p-3 bg-[#2a3b4f]/50 rounded-lg">
+                        <p className="text-sm">Color</p>
+                        <p className="text-xl">{dailyFortune.lucky.color}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Share Button */}
+                {/* Card Footer */}
+                <div className="mt-6 text-center text-[#d3ae8b]/60 text-sm">
+                  www.goodkarmabeads.com
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="p-6 flex gap-4">
+                <button 
+                  onClick={downloadFortuneCard}
+                  className="flex-1 px-6 py-3 bg-[#d3ae8b] text-[#1d2a3a] rounded-lg font-semibold hover:bg-[#d3ae8b]/90 transition-colors"
+                >
+                  📥 Download Card
+                </button>
                 <button 
                   onClick={shareReading}
-                  className="w-full mt-6 px-6 py-3 bg-[#d3ae8b] text-[#1d2a3a] rounded-lg font-semibold hover:bg-[#d3ae8b]/90 transition-colors"
+                  className="flex-1 px-6 py-3 border-2 border-[#d3ae8b] text-[#d3ae8b] rounded-lg font-semibold hover:bg-[#d3ae8b]/10 transition-colors"
                 >
-                  💫 Share Your Reading
+                  💫 Share Reading
                 </button>
               </div>
             </div>
